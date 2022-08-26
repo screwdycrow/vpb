@@ -8,8 +8,8 @@
       </button>
       <vpb-add-page @close="addPage=false" v-if="addPage"></vpb-add-page>
       </div>
-    <div class="flex w-full justify-center mt-3">
-      <ul class="bg-white rounded-lg border border-gray-200 w-96 text-gray-900">
+    <div class="mt-3">
+      <ul class="bg-white rounded-lg border border-gray-200 w-full text-gray-900">
         <li class="px-6 py-2 border-b border-gray-200 w-full flex justify-between space-y" v-for="p in pages">
           <div class="flex w-full justify-between align-middle ">
             <div class="flex flex-col">
@@ -24,7 +24,7 @@
                   0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
                 </svg>
               </button>
-              <router-link :to="p.path" class="hover:bg-gray-300 text-white font-bold py-3 px-3 rounded-full">
+              <router-link :to="p.path"  class="hover:bg-gray-300 text-white font-bold py-3 px-3 rounded-full">
                 <svg class="h-5 w-5 fill-current text-gray-500" viewBox="0 0 24 24">
                   <path d="M0 0h24v24H0z" fill="none" />
                   <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76

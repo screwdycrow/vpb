@@ -102,8 +102,6 @@ export const useVpbAdminStore = defineStore('vpbAdmin', {
         setPosts(posts) {
             this.posts = _.cloneDeep(posts)
         },
-
-
     },
     getters: {
         pages: state => state.posts.filter(p => p.type === 'page'),

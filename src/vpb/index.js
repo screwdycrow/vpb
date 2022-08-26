@@ -1,6 +1,7 @@
 import {useVpbAdminStore} from "@/vpb/stores/vpbAdminStore";
 import VpbPost from "@/vpb/views/VpbPost";
 
+
 /**
  * @param componentTypes
  * @param getPostsRequest
@@ -28,12 +29,11 @@ export function createVpb(
                 addPost: addPostRequest
             })
             registerComponentTypes(componentTypes);
+            registerTemplates(templates);
             vpbAdminStore.getPosts().then(() => {
                 const pages = vpbAdminStore.pages
                 registerRoutes(pages, router);
             })
-            registerTemplates(templates);
-
         }
     }
 }
@@ -66,8 +66,7 @@ function registerRoutes(posts, router) {
                 props: {
                     name: p.name
                 }
-            }
-        )
+            })
     })
 }
 

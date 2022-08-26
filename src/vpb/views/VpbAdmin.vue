@@ -1,13 +1,7 @@
 <template>
-  <div class="flex">
-    <vpb-posts-list class="w-100"></vpb-posts-list>
-    <div class=" mt-5 ml-5">
-      <div class="flex justify-between ">
-        <h1 class="text-xl font-bold flex "> Parts </h1>
-      </div>
-    </div>
+  <div>
+    <vpb-posts-list></vpb-posts-list>
   </div>
-
 </template>
 
 <script>
