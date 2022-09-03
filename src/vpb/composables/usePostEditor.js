@@ -12,7 +12,6 @@ export default function usePostEditor(){
     const setSelectedActive = (name)=>{
         //get post from adminStore by name
         const post =  adminStore.postOfName(name);
-        console.log(post);
         editorStore.setActivePost(post);
     }
     const cancelChanges = ()=>{

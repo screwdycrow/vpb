@@ -67,7 +67,7 @@ export default {
       name: '',
       path: '',
       type: 'page',
-      content: {},
+      content: [],
       settings: {},
       template: templateNames.value[0]
     })

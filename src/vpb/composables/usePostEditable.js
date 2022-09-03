@@ -9,8 +9,12 @@ export default function usePostEditable(post) {
     const unsetFromEditable = () => {
         editorStore.unsetEditablePost(post);
     }
+    const unsetFromEditor = ()=>{
+        editorStore.resetEditor()
+    }
     setAsEditable();
     onUnmounted(() => {
+        unsetFromEditor();
         unsetFromEditable();
     })
 }

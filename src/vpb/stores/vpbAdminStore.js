@@ -1,7 +1,7 @@
 import Post from "@/vpb/models/Post";
 import ComponentType from "@/vpb/models/ComponentType";
 import Prop from "@/vpb/models/Prop";
-import VpbRow from "@/vpb/components/VpbRow";
+import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
 import {defineStore} from "pinia";
 import VpbPost from "@/vpb/views/VpbPost";
 

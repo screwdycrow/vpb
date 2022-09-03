@@ -2,7 +2,7 @@ import {createVpb} from "@/vpb";
 import ComponentType from "@/vpb/models/ComponentType";
 import Prop from "@/vpb/models/Prop";
 import Post from "@/vpb/models/Post";
-import VpbRow from "@/vpb/components/VpbRow";
+import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
 
 export default createVpb({
     componentTypes: [

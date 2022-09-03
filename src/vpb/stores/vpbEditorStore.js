@@ -10,18 +10,23 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
         activePostName: null,
         activeComponent: null,
         activePost: null,
-        activePostCopy:null,
-        editablePosts: []
+        activePostCopy: null,
+        editablePosts: [],
+        renderStructure: {}
     }),
     actions: {
         setEditablePost(post) {
-            //if post not in editablePosts , add it
             if (this.editablePosts.findIndex(p => p.name === post.name) === -1) {
                 this.editablePosts.push({name: post.name, title: post.title});
             }
         },
+        setRenderStructure(post, structure) {
+            this.renderStructure[post.name] = _.cloneDeep(structure);
+        },
+        unsetRenderStructure(post) {
+            delete this.renderStructure[post.name];
+        },
         unsetEditablePost(post) {
-            //if post in editablePosts , remove it
             let index = this.editablePosts.findIndex(p => p.name === post.name);
             if (index > -1) {
                 this.editablePosts.splice(index, 1);
@@ -31,13 +36,12 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             this.activePost = new Post(_.cloneDeep(post));
             this.activePostCopy = new Post(_.cloneDeep(post));
         },
-        resetEditor(){
+        resetEditor() {
             this.activePost = null;
             this.activePostCopy = null;
-            }
-
+        }
     },
-    getters:{
-        isEditorActive: state=> state.activePost !== null,
+    getters: {
+        isEditorActive: state => state.activePost !== null,
     }
 })

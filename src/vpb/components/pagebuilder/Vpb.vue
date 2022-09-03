@@ -1,26 +1,25 @@
 <template>
-  <div :class="{'edit-mode':isEditMode}">
-
-  </div>
+  <vpb-viewer :post="post" v-if="!isEditMode"></vpb-viewer>
+  <vpb-editor :post="activePost" v-if="isEditMode"></vpb-editor>
 </template>
 
 <script>
-import Post from "@/vpb/models/Post";
 import usePostEditable from "@/vpb/composables/usePostEditable";
 import {toRefs} from "vue";
 import {usePost} from "@/vpb/composables/usePost";
-import usePostEditor from "@/vpb/composables/usePostEditor";
+import VpbViewer from "@/vpb/components/pagebuilder/VpbViewer";
+import VpbEditor from "@/vpb/components/pagebuilder/VpbEditor";
 
 export default {
   name: "Vpb",
+  components: {VpbEditor, VpbViewer},
   props: {
     name: String
   },
   setup(props) {
-    const {post, isEditMode, activePost} = toRefs(usePost(props.name));
+    const {post, isEditMode, activePost,rootChildren} = toRefs(usePost(props.name));
     usePostEditable(post.value)
-
-    return {post, isEditMode,activePost}
+    return {post, isEditMode,activePost, rootChildren}
   }
 
 }
@@ -28,6 +27,7 @@ export default {
 
 <style scoped>
  .edit-mode {
-   border: 2px solid red;
+   border: 2px dashed #6fc2f1;
+   padding:5px;
  }
 </style>
