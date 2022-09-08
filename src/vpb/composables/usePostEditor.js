@@ -7,7 +7,7 @@ import {storeToRefs} from "pinia";
 export default function usePostEditor(){
     const adminStore = useVpbAdminStore();
     const editorStore = useVpbEditorStore();
-    const { editablePosts, activePost, isEditorActive} = storeToRefs(editorStore);
+    const { editablePosts, activePost, isEditorActive, isDragging, dragging, activeRendererAdd} = storeToRefs(editorStore);
 
     const setSelectedActive = (name)=>{
         //get post from adminStore by name
@@ -21,6 +21,13 @@ export default function usePostEditor(){
     const saveChanges = ()=>{
         adminStore.updatePost(activePost.value);
     }
+    const addComponent = (type,parent,index) =>{
+        editorStore.addComponent(type,parent,index)
+    }
+    const onComponentTypeDrop = (evt, parent)=>{
+        const type = evt.dataTransfer.getData('type')
+        addComponent(type,parent,1);
+    }
 
     return {
         isEditorActive,
@@ -28,7 +35,11 @@ export default function usePostEditor(){
         activePost,
         saveChanges,
         cancelChanges,
+        dragging,
         setSelectedActive,
+        activeRendererAdd,
+        setActiveRenderAdd :editorStore.setActiveRenderAdd,
+        onComponentTypeDrop
     }
 
 

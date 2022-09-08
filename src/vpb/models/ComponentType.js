@@ -7,6 +7,6 @@ export default class ComponentType {
         this.icon = icon;
         this.description = description;
         this.definition = definition;
-        this.props = props.map(p => new Prop(p))
+        this.props = props;
     }
 }

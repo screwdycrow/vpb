@@ -8,7 +8,7 @@
 
 <script>
 import {toRefs} from "vue";
-import useRenderer from "@/vpb/composables/useRenderer";
+import useRenderStructure from "@/vpb/composables/useRenderStructure";
 
 export default {
   name: "VpbViewer",
@@ -17,7 +17,7 @@ export default {
   },
   setup(props) {
     const {post} = toRefs(props)
-    const {structure, rootChildren} = toRefs(useRenderer(post.value))
+    const {structure, rootChildren} = toRefs(useRenderStructure(post.value))
     return {structure, rootChildren}
   }
 }

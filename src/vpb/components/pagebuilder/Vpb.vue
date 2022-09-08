@@ -26,8 +26,5 @@ export default {
 </script>
 
 <style scoped>
- .edit-mode {
-   border: 2px dashed #6fc2f1;
-   padding:5px;
- }
+
 </style>

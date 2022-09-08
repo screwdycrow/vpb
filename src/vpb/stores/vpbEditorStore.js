@@ -2,13 +2,18 @@
 import {defineStore} from "pinia";
 import Post from "@/vpb/models/Post";
 import {reactive} from "vue";
+import Component from "@/vpb/models/Component";
+import {useVpbAdminStore} from "@/vpb/stores/vpbAdminStore";
 
 const _ = require('lodash');
+
 
 export const useVpbEditorStore = defineStore('vpbEditor', {
     state: () => ({
         activePostName: null,
         activeComponent: null,
+        activeRendererAdd:null,
+        dragging:null,
         activePost: null,
         activePostCopy: null,
         editablePosts: [],
@@ -36,12 +41,41 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             this.activePost = new Post(_.cloneDeep(post));
             this.activePostCopy = new Post(_.cloneDeep(post));
         },
+         setActiveRenderAdd(renderer){
+             this.activeRendererAdd = renderer;
+        },
+        addComponent(type,parent,order) {
+            console.log('hey')
+            const adminStore = useVpbAdminStore();
+            let props = adminStore.componentTypes.find(c=> c.type === type).props
+            let propValues = {}
+            for (const prop in props){
+                propValues[name] = prop.default
+            }
+            //generate random alphanumeric string
+            let id = Math.random().toString(36).substr(2, 9);
+
+            const component = new Component({
+                    componentType: type,
+                    id:id ,
+                    parent: parent,
+                    order: order,
+                    props:propValues
+                }
+            )
+            console.log(component);
+            this.activePost.content.push(component)
+        },
+        setDragging(value){
+          this.dragging = value;
+        },
         resetEditor() {
             this.activePost = null;
             this.activePostCopy = null;
         }
     },
     getters: {
+        isDragging: state => state.dragging !== null,
         isEditorActive: state => state.activePost !== null,
     }
 })

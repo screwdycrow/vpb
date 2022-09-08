@@ -1,11 +1,13 @@
 <template>
-  <div class="container mx-auto">
-      <div class="flex justify-between items-center ">
-        <h1 class="font-black" style="font-size: 43px"> {{post.title}} </h1>
-      </div>
-      <div class="content">
-        <vpb :name="post.name"> </vpb>
-      </div>
+  <div class="bg-white shadow">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-bold text-gray-900">
+        {{post.title}}
+      </h1>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <vpb :name="post.name"></vpb>
   </div>
 </template>
 
@@ -17,13 +19,13 @@ import Vpb from "@/vpb/components/pagebuilder/Vpb";
 export default {
   name: "VpbPost",
   components: {Vpb},
-  props:{
+  props: {
     name: {
       type: String,
       required: true
     }
   },
-  setup(props){
+  setup(props) {
     const {post} = usePost(props.name);
     return {
       post

@@ -11,24 +11,12 @@ export default createVpb({
             definition: VpbRow,
             name: 'Row',
             description: 'A basic wrapper',
-            props: [new Prop({
+            props:{ name: new Prop({
                 icon: 'mdi-table',
                 type: 'text',
                 label: 'name',
                 defaultValue: 'row'
-            })]
-        }),
-        new ComponentType({
-            type: 'Row',
-            name: 'Row2',
-            definition: VpbRow,
-            description: 'A basic wrapper',
-            props: [new Prop({
-                icon: 'mdi-table',
-                type: 'text',
-                label: 'name',
-                defaultValue: 'row'
-            })]
+            })}
         }),
     ],
     addPostRequest: (post) => {

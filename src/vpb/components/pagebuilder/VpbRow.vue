@@ -1,6 +1,7 @@
 <template>
   <div class="wrap">
     <div class="component">
+      test
     </div>
   </div>
 
