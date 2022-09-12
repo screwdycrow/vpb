@@ -1,4 +1,4 @@
-import {computed, toRefs} from "vue";
+import {computed, onBeforeUnmount, toRefs} from "vue";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
 import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
 import {onUnmounted} from "vue";
@@ -13,10 +13,10 @@ export default function (post) {
         VPB_ROW: 'VpbRow',
     }
     const root = 'root'
-
     const vpbEditor = useVpbEditorStore()
     const rootChildren = computed(() => structure[root])
     let structure = {}
+
     const getChildrenOfRenderer = (rendererId) => {
         return post.content.filter(c => c.parent === rendererId);
     }
@@ -34,15 +34,12 @@ export default function (post) {
     const setRenderStructure = () => {
         setRenderers();
         setRoot();
+        console.log(post)
         vpbEditor.setRenderStructure(post, structure)
     }
-    const getComponentClass = (component) => {
-        const {componentDefinitions} = toRefs(useVpbAdminStore());
-        return componentDefinitions[component.componentType];
-    }
     setRenderStructure();
-    onUnmounted(() => {
+    onBeforeUnmount(() => {
         vpbEditor.unsetRenderStructure(post)
     })
-    return {rootChildren, structure,getComponentClass}
+    return {rootChildren, structure}
 }

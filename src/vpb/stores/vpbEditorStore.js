@@ -17,7 +17,7 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
         activePost: null,
         activePostCopy: null,
         editablePosts: [],
-        renderStructure: {}
+        renderStructure: new Map()
     }),
     actions: {
         setEditablePost(post) {
@@ -26,10 +26,10 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             }
         },
         setRenderStructure(post, structure) {
-            this.renderStructure[post.name] = _.cloneDeep(structure);
+            this.renderStructure.set(post.name, structure)
         },
         unsetRenderStructure(post) {
-            delete this.renderStructure[post.name];
+            this.renderStructure.delete(post.name)
         },
         unsetEditablePost(post) {
             let index = this.editablePosts.findIndex(p => p.name === post.name);
@@ -45,7 +45,6 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
              this.activeRendererAdd = renderer;
         },
         addComponent(type,parent,order) {
-            console.log('hey')
             const adminStore = useVpbAdminStore();
             let props = adminStore.componentTypes.find(c=> c.type === type).props
             let propValues = {}
@@ -75,6 +74,7 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
         }
     },
     getters: {
+        structureOf: state => name => state.renderStructure.get(name),
         isDragging: state => state.dragging !== null,
         isEditorActive: state => state.activePost !== null,
     }

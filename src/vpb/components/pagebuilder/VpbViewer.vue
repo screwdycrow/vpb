@@ -1,7 +1,6 @@
 <template>
   <div class="wrap">
     {{ structure }}
-    {{ rootChildren }}
   </div>
 
 </template>
