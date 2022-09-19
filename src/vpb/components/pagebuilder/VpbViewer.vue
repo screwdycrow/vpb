@@ -1,6 +1,8 @@
 <template>
   <div class="wrap">
-    {{ structure }}
+    <pre>
+    {{ post.content }}
+    </pre>
   </div>
 
 </template>
@@ -16,8 +18,7 @@ export default {
   },
   setup(props) {
     const {post} = toRefs(props)
-    const {structure, rootChildren} = toRefs(useRenderStructure(post.value))
-    return {structure, rootChildren}
+    return {post}
   }
 }
 </script>

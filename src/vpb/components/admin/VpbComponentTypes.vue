@@ -1,11 +1,11 @@
 <template>
   <div class="grid grid-cols-2 p-2 m-1 rounded-xl">
-    <div class="bg-white rounded shadow flex flex-col justify-center items-center p-3 hover:bg-slate-300"
+    <div class="bg-white rounded shadow flex flex-col justify-center items-center p-3 m-1 hover:bg-slate-300"
          v-for="c in componentTypes" draggable="true"
          @dragstart="onComponentTypeDrag($event, c)"
          @dragend="onComponentTypeDragEnd"
     >
-      {{ c.name }}
+      {{ c.label }}
     </div>
   </div>
   <div>
@@ -30,7 +30,7 @@ export default {
      editorStore.setDragging(null);
     }
     return {
-      componentTypes: adminStore.componentTypes,
+      componentTypes: adminStore.componentTypesArray,
       onComponentTypeDrag,
       onComponentTypeDragEnd
     }

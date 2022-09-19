@@ -9,6 +9,7 @@ const _ = require('lodash');
 export const useVpbAdminStore = defineStore('vpbAdmin', {
     state: () => ({
         posts: [],
+        loading: false,
         requests: {
             /**
              * @desc The function that will be called to fetch the posts.
@@ -42,56 +43,64 @@ export const useVpbAdminStore = defineStore('vpbAdmin', {
             addPost: (post) => {
                 return Promise.resolve(post)
             }
-
         },
         templates: {
             'Post': VpbPost,
         },
 
-        componentTypes: [],
-        componentDefinitions: {}
+        componentTypes: new Map(),
     }),
     actions: {
         getPosts() {
-            return this.requests.getPosts().then(
-                posts => {
-                    this.setPosts(posts.map(p => new Post(p)))
-                    return Promise.resolve(this.posts)
+            this.loading = true;
+            return this.requests.getPosts()
+                .then(
+                    posts => {
+                        this.setPosts(posts.map(p => new Post(p)))
+                        return Promise.resolve(this.posts)
+                    })
+                .finally(() => {
+                    this.loading = false;
                 })
         },
+
         updatePost(post) {
-            // find post in store and update it
-            return this.requests.updatePost(post).then(post => {
-                let index = this.posts.findIndex(p => p.name === post.name)
-                this.posts[index] = post
-            });
+            this.loading = true;
+            return this.requests.updatePost(post)
+                .then(post => {
+                    let index = this.posts.findIndex(p => p.name === post.name)
+                    this.posts[index] = post
+                })
+                .finally(() => {
+                    this.loading = false;
+                })
         },
+
         removePost(post) {
+            this.loading = true
             return this.requests.removePost(post).then(() => {
                 this.posts.splice(this.posts.findIndex(p => p.name === post.name), 1)
             }).catch(err => {
                 console.log(err)
             }).then(() => {
                 return Promise.resolve()
-            })
+            }).finally(() => this.loading = false)
         },
+
         addPost(post) {
-            return this.requests.addPost(post).then(
-                post => {
-                    this.posts.push(post)
-                    return Promise.resolve(post)
-                });
-        },
-        setComponentTypes(types) {
-            this.componentTypes = _.cloneDeep(types)
+            this.loading = true;
+            return this.requests.addPost(post)
+                .then(
+                    post => {
+                        this.posts.push(post)
+                        return Promise.resolve(post)
+                    })
+                .finally(() => {
+                    this.loading = false
+                })
         },
         addComponentType(component) {
-            this.componentTypes.push(_.cloneDeep(component))
-        },
-        setDefinition(name, object) {
-            if (this.componentDefinitions[name] === undefined) {
-                this.componentDefinitions[name] = object
-            }
+            this.componentTypes.set(component.type, component)
         },
         setTemplates(templates) {
             this.templates = templates
@@ -107,7 +116,8 @@ export const useVpbAdminStore = defineStore('vpbAdmin', {
         pages: state => state.posts.filter(p => p.type === 'page'),
         postsOfType: (state) => (type) => state.posts.filter(p => p.type === type),
         templateComponentOfName: (state) => (name) => state.templates[name],
-        componentOfName: (state) => (name) => state.componentDefinitions[name],
+        componentTypeOf:(state) => (type) =>state.componentTypes.get(type),
+        componentTypesArray:(state) => Array.from(state.componentTypes.values()),
         templateNames: (state) => Object.keys(state.templates),
         postOfName: (state) => (name) => state.posts.find(p => p.name === name),
     }

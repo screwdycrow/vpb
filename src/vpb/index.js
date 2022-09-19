@@ -41,15 +41,10 @@ export function createVpb(
 function registerComponentTypes(componentTypes) {
     const vpbAdminStore = useVpbAdminStore()
     componentTypes.forEach(c => {
-        registerDefinition(c)
         vpbAdminStore.addComponentType(c)
     })
 }
 
-function registerDefinition(componentType) {
-    const vpbAdminStore = useVpbAdminStore()
-    vpbAdminStore.setDefinition(componentType.type, componentType.definition)
-}
 
 function registerTemplates(templates) {
     const vpbAdminStore = useVpbAdminStore()

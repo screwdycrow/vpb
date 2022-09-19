@@ -1,7 +1,10 @@
 <template>
-  <div class="wrapper edit-mode">
+  <div class="wrapper editor  p-1">
     <div class="root renderer">
-      <vpb-row :children="rootChildren" :post-name="post.name" id="root"></vpb-row>
+      <vpb-row :children="post.content.root" :is-edit-mode="true" :post-name="post.name" id="root"></vpb-row>
+    </div>
+    <div class="root adder">
+      <vpb-add-component id="root"></vpb-add-component>
     </div>
   </div>
 </template>
@@ -12,18 +15,17 @@ import useRenderStructure from "@/vpb/composables/useRenderStructure";
 import VpbComponent from "@/vpb/components/pagebuilder/VpbComponent";
 import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
+import VpbAddComponent from "@/vpb/components/pagebuilder/VpbAddComponent";
 
 export default {
-  components: {VpbRow, VpbComponent, VpbColumn},
+  components: {VpbAddComponent, VpbRow, VpbComponent, VpbColumn},
   props: {
     post: {type: Object, required: true}
   },
   name: "VpbEditor",
   setup(props) {
     const {post} = toRefs(props)
-    const renderer = useRenderStructure(post.value)
-    const {structure,rootChildren} = toRefs(renderer)
-    return {structure,rootChildren,post}
+    return {post}
   }
 }
 </script>
@@ -31,13 +33,7 @@ export default {
 <style scoped>
 
 
-.root:hover {
+.editor .root:hover {
   width: 100%;
-  border: 2px solid cornflowerblue;
-  padding: 5px;
-}
-
-.edit-mode {
-  min-height: 400px;
 }
 </style>

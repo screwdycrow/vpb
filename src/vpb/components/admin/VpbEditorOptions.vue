@@ -5,8 +5,13 @@
         <strong class="font-black">Editing {{ activePost.title }} </strong>
       </div>
       <hr>
-      <div v-if="activeRendererAdd  !== null ">
+      <div v-if="activeComponent === null ">
         <vpb-component-types></vpb-component-types>
+      </div>
+      <div v-else>
+        <div>
+          {{activeComponent}}
+        </div>
       </div>
     </div>
     <div class="flex bg-slate-700 p3-3">
@@ -35,7 +40,7 @@ export default {
   components: {VpbComponentTypes},
   setup(props, ctx) {
     const postEditor = usePostEditor();
-    const {activePost, activeRendererAdd} = toRefs(postEditor);
+    const {activePost, activeRendererAdd,activeComponent} = toRefs(postEditor);
     const saveChanges = () => {
       postEditor.saveChanges();
     }
@@ -45,7 +50,7 @@ export default {
     const activePostName = computed(() => {
       return activePost.value ? activePost.value.name : null;
     })
-    return {activePost, activePostName, saveChanges, cancelChanges, activeRendererAdd}
+    return {activePost, activePostName, saveChanges, cancelChanges, activeRendererAdd,activeComponent}
   }
 }
 </script>

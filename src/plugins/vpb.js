@@ -3,20 +3,31 @@ import ComponentType from "@/vpb/models/ComponentType";
 import Prop from "@/vpb/models/Prop";
 import Post from "@/vpb/models/Post";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
+import Title from "@/components/Title";
 
 export default createVpb({
     componentTypes: [
         new ComponentType({
+            type: 'Title',
+            definition: Title,
+            name: 'Title',
+            isRenderer: false,
+            icon: 'mdi-table',
+            description: 'A basic title',
+            props: [new Prop({
+                name:'text',
+                type: 'text',
+                label: 'Text',
+                defaultValue: 'title'
+            })]
+        }),
+        new ComponentType({
             type: 'Row',
             definition: VpbRow,
             name: 'Row',
+            isRenderer: true,
             description: 'A basic wrapper',
-            props:{ name: new Prop({
-                icon: 'mdi-table',
-                type: 'text',
-                label: 'name',
-                defaultValue: 'row'
-            })}
+            props: []
         }),
     ],
     addPostRequest: (post) => {
