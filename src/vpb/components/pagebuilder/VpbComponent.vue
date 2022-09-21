@@ -1,12 +1,14 @@
 <template>
-  <div class="component-content rounded" :class="{'edit-mode-component':isEditMode,'droppable':isRenderer && dragging!==null}" :draggable="isEditMode"
-        @click="isEditMode?onComponentClick($event, component,isRenderer):()=>{}"
-        @dragenter.prevent="isEditMode?onDragEnter($event,component):()=>{}"
-        @dragleave.prevent="isEditMode?onDragLeave($event,component):()=>{}"
-       @drop="isEditMode?resetDragLeave($event, component):()=>{}"
+  <div class="component-content rounded"
+       :class="{'edit-mode-component':isEditMode,'droppable':isRenderer && dragging!==null}"
+       :draggable="isEditMode"
+       @click="onComponentClick($event, component,isRenderer)"
+       @dragenter.prevent="onDragEnter($event,component)"
+       @dragleave.prevent="onDragLeave($event,component)"
+       @drop="resetDragLeave($event, component)"
        @dragover.prevent
-       @dragstart.self="isEditMode? onComponentDrag($event, component):()=>{}"
-       @dragend.self="isEditMode? onComponentDragEnd($event, component):()=>{}">
+       @dragstart.self="onComponentDrag($event, component)"
+       @dragend.self="onComponentDragEnd($event, component)">
     <div class="component-header flex">
       <div class="component-title">
         {{ component.componentType }}
@@ -44,19 +46,21 @@ export default {
     const editorStore = useVpbEditorStore();
     const adminStore = useVpbAdminStore();
     let dragLeave = ref(0);
+
     const {activePost, dragging} = toRefs(editor)
-    const isDragOver = computed(()=>editor.dragOverComponentId === component.value.id)
+
     const isEditMode = computed(() => {
       if (activePost.value === null) return false;
       console.log(activePost.value.name, postName.value)
       return activePost.value.name === postName.value
     })
+
     const componentType = computed(() => {
       return adminStore.componentTypeOf(component.value.componentType)
     })
 
     const children = computed(() => {
-          let post = !isEditMode.value?editorStore.editablePosts.get(postName.value):activePost;
+          let post = !isEditMode.value ? editorStore.editablePosts.get(postName.value) : activePost;
           let children = []
           if (post.value.content[component.value.id] !== undefined) {
             children = post.value.content[component.value.id]
@@ -66,24 +70,29 @@ export default {
     )
 
     const onComponentDrag = (evt, component) => {
+      if (!isEditMode) return;
       evt.dataTransfer.setData('component', JSON.stringify(component))
       editorStore.setDragging('component');
     }
     const onComponentDragEnd = (evt, component) => {
+      if (!isEditMode) return;
       editorStore.setDragging(null);
     }
-    const onDragLeave = (evt, component) =>{
+    const onDragLeave = (evt, component) => {
+      if (!isEditMode) return;
       dragLeave.value--;
     }
-    const onDragEnter = (evt, component) =>{
+    const onDragEnter = (evt, component) => {
+      if (!isEditMode) return;
       dragLeave.value++
     }
-    const resetDragLeave = (evt, component)=>{
+    const resetDragLeave = (evt, component) => {
+      if (!isEditMode) return;
       dragLeave.value = 0
     }
     return {
       isRenderer: componentType.value.isRenderer,
-      onComponentClick:editor.onComponentClick,
+      onComponentClick: editor.onComponentClick,
       componentClass: componentType.value.definition,
       postName,
       component,
@@ -107,7 +116,8 @@ export default {
   border: 1px solid #cad4e0;
   padding: 2px;
 }
-.component-title{
+
+.component-title {
   color: #cad4e0;
   font-size: 0.8em;
 }
@@ -115,13 +125,16 @@ export default {
 .edit-mode-component:hover {
   border: 2px solid #6fc2f1;
 }
+
 .edit-mode-component:hover {
   border: 2px solid #6fc2f1;
 }
-.droppable{
+
+.droppable {
   border: 2px solid #6fc2f1;
 
 }
+
 /*.component-content:hover > .dropzone{*/
 /*   background: #6fc2f1;*/
 /*   padding:5px;*/
