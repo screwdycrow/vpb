@@ -4,6 +4,7 @@ import Prop from "@/vpb/models/Prop";
 import Post from "@/vpb/models/Post";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
 import Title from "@/components/Title";
+import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
 
 export default createVpb({
     componentTypes: [
@@ -24,11 +25,19 @@ export default createVpb({
         new ComponentType({
             type: 'Row',
             definition: VpbRow,
-            name: 'Row',
+            name: 'Row Renderer',
             isRenderer: true,
-            description: 'A basic wrapper',
+            description: 'A basic wrapper that renders components in a row ',
             props: []
         }),
+        new ComponentType({
+            type: 'Column',
+            definition: VpbColumn,
+            name: 'Column Renderer',
+            isRenderer: true,
+            description: 'A basic wrapper that renders components in a column',
+            props: []
+        })
     ],
     addPostRequest: (post) => {
         return new Promise((resolve, reject) => {

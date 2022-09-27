@@ -20,17 +20,19 @@ export default function usePostEditor(){
     const saveChanges = ()=>{
         adminStore.updatePost(activePost.value);
         editorStore.setActivePost(activePost.value)
+        editorStore.setEditablePost(activePost.value)
+
     }
     const addComponent = (type,parent,index) =>{
         editorStore.addComponent(type,parent,index)
     }
-    const onComponentTypeDrop = (evt, parent)=>{
+    const onComponentTypeDrop = (evt, parent,index)=>{
         const type = evt.dataTransfer.getData('type')
-        addComponent(type,parent,1);
+        addComponent(type,parent,index);
     }
-    const onComponentDrop = (evt, parent)=>{
+    const onComponentDrop = (evt, parent, index)=>{
         const component = JSON.parse(evt.dataTransfer.getData('component'))
-        editorStore.moveComponent(component,parent);
+        editorStore.moveComponent(component,parent, index);
     }
     const onComponentClick= (evt,component,isRenderer)=>{
         console.log(isRenderer)

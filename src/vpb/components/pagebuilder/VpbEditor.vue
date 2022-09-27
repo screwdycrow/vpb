@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper editor  p-1">
     <div class="root renderer">
-      <vpb-row :children="post.content.root" :is-edit-mode="true" :post-name="post.name" id="root"></vpb-row>
+      <vpb-column :children="post.content.root" :is-edit-mode="true" :post-name="post.name" id="root"></vpb-column>
     </div>
     <div class="root adder">
       <vpb-add-component id="root"></vpb-add-component>

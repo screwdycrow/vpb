@@ -1,8 +1,8 @@
 <template>
   <div class="wrap" :class="{'edit-mode':isEditMode}">
     <div class="row">
-      <div class="component" v-for="c in children" >
-        <vpb-component :component="c" :post-name="postName"></vpb-component>
+      <div class="component" v-for="(c, index) in children" :key="c.id" >
+        <vpb-component :component="c" :index="index" :post-name="postName"></vpb-component>
       </div>
     </div>
   </div>
@@ -15,20 +15,13 @@
 import {toRefs} from "vue";
 import VpbAddComponent from "@/vpb/components/pagebuilder/VpbAddComponent";
 import VpbComponent from "@/vpb/components/pagebuilder/VpbComponent";
-import {storeToRefs} from "pinia";
-import {useVpbEditorStore} from "@/vpb/stores/vpbEditorStore";
+import ComponentProps from "@/vpb/models/ComponentProps";
 export default {
   components: {VpbComponent, VpbAddComponent},
-  props: {
-    id: String,
-    postName: String,
-    children: Array,
-    isEditMode:Boolean,
-  },
+  props: {...ComponentProps},
   name: "VpbRow",
   setup(props){
     const {children, id,postName, isEditMode} = toRefs(props)
-
     return {children, id,postName, isEditMode}
   }
 }
@@ -38,7 +31,12 @@ export default {
 .edit-mode{
   padding:2px;
 }
-
+.row{
+  display:flex;
+}
+.row > .component{
+  flex-grow: 1;
+}
 .edit-mode:hover > .editor{
    display: inherit;
 }

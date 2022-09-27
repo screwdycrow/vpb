@@ -9,18 +9,16 @@
         <vpb-component-types></vpb-component-types>
       </div>
       <div v-else>
-        <div>
-          {{activeComponent}}
-        </div>
+        <vbp-component-props></vbp-component-props>
       </div>
     </div>
-    <div class="flex bg-slate-700 p3-3">
-      <a href="#" class="block px-4 py-2 text-sm  text-green-700 hover:bg-gray-100"
+    <div class="flex bg-slate-100 p3-3 justify-around">
+      <a href="#" class="block px-3 py-4 text-sm  text-green-700 hover:bg-slate-300"
          v-if="activePost"
          @click="saveChanges()">
         Save
       </a>
-      <a href="#" class="block px-4 py-2 text-sm  text-red-700 hover:bg-gray-100"
+      <a href="#" class="block px-4 py-4 text-sm  text-red-700 hover:bg-slate-300"
          v-if="activePost"
          @click="cancelChanges()">
         Cancel
@@ -34,10 +32,11 @@
 import usePostEditor from "@/vpb/composables/usePostEditor";
 import {computed, ref, toRefs} from "vue";
 import VpbComponentTypes from "@/vpb/components/admin/VpbComponentTypes";
+import VbpComponentProps from "@/vpb/components/admin/VbpComponentProps";
 
 export default {
   name: "VpbEditorOptions",
-  components: {VpbComponentTypes},
+  components: {VbpComponentProps, VpbComponentTypes},
   setup(props, ctx) {
     const postEditor = usePostEditor();
     const {activePost, activeRendererAdd,activeComponent} = toRefs(postEditor);

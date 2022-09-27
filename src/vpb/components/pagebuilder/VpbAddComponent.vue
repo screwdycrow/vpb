@@ -17,23 +17,27 @@ import usePostEditor from "@/vpb/composables/usePostEditor";
 export default {
   props: {
     id: String,
+    index: Number,
   },
   name: "VpbAddComponent",
-  setup(props) {
-    const {id} = toRefs(props);
+  emits: ['addedComponent'],
+  setup(props,{emit}) {
+    const {id,index} = toRefs(props);
     const postEditor = usePostEditor();
     const {isEditorActive, dragging} = toRefs(postEditor);
     let isDragHover = computed(()=>dragLeave.value > 0 )
     let dragLeave = ref(0)
 
     const onDrop = (evt) => {
+      evt.stopPropagation();
       dragLeave.value = 0;
       if (dragging.value === 'componentType') {
-        console.log(evt.dataTransfer.getData('type'))
-        postEditor.onComponentTypeDrop(evt, id.value)
+        postEditor.onComponentTypeDrop(evt, id.value,index.value)
       }else if(dragging.value === 'component'){
-        postEditor.onComponentDrop(evt, id.value)
+        postEditor.onComponentDrop(evt, id.value, index.value)
       }
+      emit('addedComponent')
+
     }
     const onDragEnter = (evt) => {
       dragLeave.value++

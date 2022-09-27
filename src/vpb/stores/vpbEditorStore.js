@@ -34,14 +34,15 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             this.activeRendererAdd = renderer;
             this.activeComponent = null;
         },
-        moveComponent(component, newParent) {
+        moveComponent(component, newParent,order) {
             console.log(component, newParent);
             const index = this.activePost.content[component.parent].findIndex(c => c.id === component.id)
             this.activePost.content[component.parent].splice(index, 1)
             component.parent = newParent
-            this.activePost.content[newParent].push(component)
+            this.activePost.content[newParent].splice(order, 0, component)
         },
-        addComponent(type, parent, order) {
+
+        addComponent(type, parent) {
             const adminStore = useVpbAdminStore();
             const componentType = adminStore.componentTypes.get(type)
             let props = Array.from(componentType.props.values())
@@ -54,7 +55,6 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
                     componentType: type,
                     id: id,
                     parent: parent,
-                    order: order,
                     props: propValues
                 }
             )
