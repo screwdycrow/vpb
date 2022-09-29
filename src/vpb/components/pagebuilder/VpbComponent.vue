@@ -10,10 +10,16 @@
        @dragover.prevent
        @dragstart.self="onComponentDrag($event, component)"
        @dragend.self="onComponentDragEnd($event, component)">
-    <div class="component-header flex" v-if="isEditMode">
+    <div class="component-header flex justify-between" v-if="isEditMode">
       <div class="component-title">
         {{ component.componentType }}
       </div>
+      <button @click="remove(component)" class="hover:bg-gray-300 text-white font-bold py-1 px-1 rounded-full">
+        <svg class="h-3 w-3 fill-current text-gray-300" viewBox="0 0 24 24">
+          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+          <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+      </button>
     </div>
     <component :is="componentClass"
                :id="component.id"
@@ -97,9 +103,13 @@ export default {
       if (!isEditMode.value) return;
       dragLeave.value = 0
     }
-    const onClick = (evt, component,isRenderer) => {
-      if(!isEditMode.value) return;
-      editor.onComponentClick(evt, component,isRenderer);
+    const remove = (component) => {
+      editor.removeComponent(component);
+    }
+    const onClick = (evt, component, isRenderer) => {
+      if (!isEditMode.value) return;
+      evt.stopPropagation();
+      editor.onComponentClick(evt, component, isRenderer);
     }
     const onDrop = (evt) => {
       resetDragLeave()
@@ -123,6 +133,7 @@ export default {
       onClick,
       onDragLeave,
       onDragEnter,
+      remove,
       onComponentDrag,
       onComponentDragEnd,
       resetDragLeave,
@@ -134,9 +145,9 @@ export default {
 
 <style scoped>
 .edit-mode-component {
-  margin: 5px;
   border: 1px solid #cad4e0;
   padding: 2px;
+  margin-bottom: 2px;
 }
 
 .component-title {
@@ -156,6 +167,11 @@ export default {
   pointer-events: none;
 }
 
+.component-content {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
 /*.component-content:hover > .dropzone{*/
 /*   background: #6fc2f1;*/
 /*   padding:5px;*/

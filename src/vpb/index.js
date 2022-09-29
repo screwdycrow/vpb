@@ -14,6 +14,7 @@ export function createVpb(
     {
         componentTypes,
         templates,
+        propEditors,
         getPostsRequest,
         updatePostRequest,
         removePostRequest,
@@ -28,6 +29,7 @@ export function createVpb(
                 removePost: removePostRequest,
                 addPost: addPostRequest
             })
+            registerPropEditors(propEditors)
             registerComponentTypes(componentTypes);
             registerTemplates(templates);
             vpbAdminStore.getPosts().then(() => {
@@ -45,7 +47,12 @@ function registerComponentTypes(componentTypes) {
     })
 }
 
-
+function registerPropEditors(propEditors){
+    const vpbAdminStore = useVpbAdminStore()
+    propEditors.forEach(propEditor=>{
+        vpbAdminStore.addPropEditor(propEditor)
+    })
+}
 function registerTemplates(templates) {
     const vpbAdminStore = useVpbAdminStore()
     vpbAdminStore.setTemplates({'Default': VpbPost, ...templates ? templates : {}})

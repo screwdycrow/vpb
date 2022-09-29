@@ -5,8 +5,32 @@ import Post from "@/vpb/models/Post";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
 import Title from "@/components/Title";
 import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
+import PropArray from "@/vpb/models/PropArray";
+import PropEditor from "@/vpb/models/PropEditor";
+import {markRaw} from "vue";
+import VpbPropTextField from "@/vpb/components/propEditors/VpbPropTextField";
+import VpbPropColor from "@/vpb/components/propEditors/VpbPropColor";
+import {stylingPropDefinitions} from "@/vpb/models/StylingProps";
+import VpbCssFourSidesField from "@/vpb/components/propEditors/VpbCssFourSidesField";
 
 export default createVpb({
+    propEditors:[
+      new PropEditor({
+          type:'text',
+          label: 'Text Input',
+          definition: VpbPropTextField
+      }),
+        new PropEditor({
+            type: 'color',
+            label: 'Color Input',
+            definition: VpbPropColor
+        }),
+        new PropEditor({
+            type:'cssFourSides',
+            label: 'Top Left Bottom Right',
+            definition: VpbCssFourSidesField
+        })
+    ],
     componentTypes: [
         new ComponentType({
             type: 'Title',
@@ -15,12 +39,13 @@ export default createVpb({
             isRenderer: false,
             icon: 'mdi-table',
             description: 'A basic title',
-            props: [new Prop({
-                name:'text',
-                type: 'text',
-                label: 'Text',
-                defaultValue: 'title'
-            })]
+            props: [
+                new Prop({
+                    name: 'text',
+                    type: 'text',
+                    label: 'Text',
+                    defaultValue: 'title'
+                })]
         }),
         new ComponentType({
             type: 'Row',
@@ -28,7 +53,32 @@ export default createVpb({
             name: 'Row Renderer',
             isRenderer: true,
             description: 'A basic wrapper that renders components in a row ',
-            props: []
+            props: [
+                new Prop({
+                    type: 'text',
+                    name: 'align',
+                    label: 'Align Items',
+                    defaultValue: 'stretch'
+                }),
+                new Prop({
+                    name: 'rows',
+                    type: 'text',
+                    label: 'Rows',
+                    defaultValue: '100%'
+                }),
+                new Prop({
+                    name: 'columns',
+                    type: 'text',
+                    label: 'Columns',
+                    defaultValue: '33.3% 33.3% 33.3%'
+                }),
+                new Prop({
+                    name: 'gap',
+                    type: 'text',
+                    label: 'Gutter',
+                    defaultValue: '10px'
+                })
+            ]
         }),
         new ComponentType({
             type: 'Column',
@@ -36,7 +86,9 @@ export default createVpb({
             name: 'Column Renderer',
             isRenderer: true,
             description: 'A basic wrapper that renders components in a column',
-            props: []
+            props: [
+                ...stylingPropDefinitions
+              ]
         })
     ],
     addPostRequest: (post) => {

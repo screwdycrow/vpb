@@ -12,7 +12,7 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
         activeComponent: null,
         activeRendererAdd: null,
         dragging: null,
-        dragOverComponentId:null,
+        dragOverComponentId: null,
         activePost: null,
         activePostCopy: null,
         editablePosts: new Map(),
@@ -34,20 +34,24 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             this.activeRendererAdd = renderer;
             this.activeComponent = null;
         },
-        moveComponent(component, newParent,order) {
+        moveComponent(component, newParent, order) {
             console.log(component, newParent);
             const index = this.activePost.content[component.parent].findIndex(c => c.id === component.id)
             this.activePost.content[component.parent].splice(index, 1)
             component.parent = newParent
             this.activePost.content[newParent].splice(order, 0, component)
         },
-
+        removeComponent(component) {
+            let index = this.activePost.content[component.parent].findIndex(c => component.id === c.id)
+            if (this.activePost.content[component.id]) delete this.activePost.content[component.id];
+            this.activePost.content[component.parent].splice(index, 1)
+        },
         addComponent(type, parent) {
             const adminStore = useVpbAdminStore();
             const componentType = adminStore.componentTypes.get(type)
             let props = Array.from(componentType.props.values())
             let propValues = {}
-            props.forEach(p=>{
+            props.forEach(p => {
                 propValues[p.name] = p.default
             })
             let id = Math.random().toString(36).substr(2, 9);
@@ -58,14 +62,14 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
                     props: propValues
                 }
             )
-            if(componentType.isRenderer) {
+            if (componentType.isRenderer) {
                 this.activePost.content[id] = []
             }
 
             if (this.activePost.content[parent] === undefined) this.activePost.content[parent] = [];
             this.activePost.content[parent].push(component)
         },
-        setActiveComponent(component){
+        setActiveComponent(component) {
             this.activeComponent = component;
         },
         updateHistory(post) {
@@ -78,7 +82,7 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             this.activePost = null;
             this.activePostCopy = null;
         },
-        setDragOverComponentId(componentId){
+        setDragOverComponentId(componentId) {
             this.dragOverComponentId = componentId;
         }
     },

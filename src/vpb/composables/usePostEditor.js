@@ -26,6 +26,9 @@ export default function usePostEditor(){
     const addComponent = (type,parent,index) =>{
         editorStore.addComponent(type,parent,index)
     }
+    const removeComponent = (component) =>{
+        editorStore.removeComponent(component)
+    }
     const onComponentTypeDrop = (evt, parent,index)=>{
         const type = evt.dataTransfer.getData('type')
         addComponent(type,parent,index);
@@ -41,6 +44,7 @@ export default function usePostEditor(){
     }
 
     return {
+        removeComponent,
         isEditorActive,
         editablePosts,
         activePost,

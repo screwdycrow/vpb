@@ -47,7 +47,7 @@ export const useVpbAdminStore = defineStore('vpbAdmin', {
         templates: {
             'Post': VpbPost,
         },
-
+        propEditors: new Map(),
         componentTypes: new Map(),
     }),
     actions: {
@@ -102,6 +102,9 @@ export const useVpbAdminStore = defineStore('vpbAdmin', {
         addComponentType(component) {
             this.componentTypes.set(component.type, component)
         },
+        addPropEditor(propEditor){
+          this.propEditors.set(propEditor.type, propEditor)
+        },
         setTemplates(templates) {
             this.templates = templates
         },
@@ -117,6 +120,8 @@ export const useVpbAdminStore = defineStore('vpbAdmin', {
         postsOfType: (state) => (type) => state.posts.filter(p => p.type === type),
         templateComponentOfName: (state) => (name) => state.templates[name],
         componentTypeOf:(state) => (type) =>state.componentTypes.get(type),
+        propEditorOf:(state) => (type) => state.propEditors.get(type),
+        propEditorsArray:(state) => Array.from(state.propEditors.values()),
         componentTypesArray:(state) => Array.from(state.componentTypes.values()),
         templateNames: (state) => Object.keys(state.templates),
         postOfName: (state) => (name) => state.posts.find(p => p.name === name),

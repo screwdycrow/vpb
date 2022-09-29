@@ -1,19 +1,20 @@
 <template>
-<div class="form">
-  <div class="justify-between items-center mt-3" v-for="prop in componentProps">
-    <label class="text-gray-700 font-bold mr-3"> {{prop.label}} </label>
-    <input class="w-full border border-gray-200 rounded-lg px-1 py-1" type="text" placeholder="path"
-           :type="prop.type" id="name" v-model="activeComponent.props[prop.name]"/>
+  <div class="form">
+    <div v-for="prop in  componentProps" class="mt-1 mb-2">
+      <component  v-bind="{prop}" :is="propEditorOf(prop.type).definition" :key="prop.name"></component>
+    </div>
+
   </div>
-</div>
 </template>
 
 <script>
-import {computed} from "vue";
+import {computed, toRefs} from "vue";
 import usePostEditor from "@/vpb/composables/usePostEditor";
 import {useVpbAdminStore} from "@/vpb/stores/vpbAdminStore";
+import Prop from "@/vpb/models/Prop";
 
 export default {
+
   name: "VbpComponentProps",
   setup() {
     const {activeComponent} = usePostEditor();
@@ -21,19 +22,22 @@ export default {
     const componentType = computed(() => {
       return adminStore.componentTypeOf(activeComponent.value.componentType)
     })
+    const propEditorOf =  adminStore.propEditorOf
+
     const componentProps = computed(() => {
       return Array.from(componentType.value.props.values())
     })
-    return {activeComponent, componentProps}
+    return {activeComponent, componentProps, propEditorOf}
   }
 }
 </script>
 
 <style scoped>
-.form{
-  padding:1em;
+.form {
+  padding: 1em;
 }
-.form input{
-  width:100%;
+
+.form input {
+  width: 100%;
 }
 </style>

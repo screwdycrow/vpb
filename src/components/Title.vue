@@ -1,5 +1,5 @@
 <template>
-  <h1 :contenteditable="isEditMode" style="font-size: 2em; font-weight: bold" @input="onInput($event)"> {{text}} </h1>
+  <h1 :contenteditable="isEditMode"  style="font-size: 2em; font-weight: bold; display: inline-block"  @input="onInput($event)"> {{text}} </h1>
 </template>
 
 <script>
@@ -20,6 +20,7 @@ export default {
 
     const onInput = (e)=>{
       activeComponent.value.props.text =  e.target.innerText
+      e.target.focus()
     }
     return {...toRefs(props),onInput,activeComponent}
   }
