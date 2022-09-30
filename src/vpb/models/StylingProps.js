@@ -58,7 +58,7 @@ const stylingProps = {
     margin:{type:String, default:()=>['0','0','0','0']},
     color:String,
     backgroundColor:String,
-    border:{type:String, default:()=>['0','0','0','0']},
+    borderWidth:{type:String, default:()=>['0','0','0','0']},
     borderColor:String,
     borderRadius:{type:String, default:()=>['0','0','0','0']}
 }

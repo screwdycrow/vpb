@@ -37,7 +37,7 @@ export default createVpb({
             definition: Title,
             name: 'Title',
             isRenderer: false,
-            icon: 'mdi-table',
+            icon: 'mdi-format-title',
             description: 'A basic title',
             props: [
                 new Prop({
@@ -50,10 +50,12 @@ export default createVpb({
         new ComponentType({
             type: 'Row',
             definition: VpbRow,
+            icon:'mdi-table',
             name: 'Row Renderer',
             isRenderer: true,
             description: 'A basic wrapper that renders components in a row ',
             props: [
+                ...stylingPropDefinitions,
                 new Prop({
                     type: 'text',
                     name: 'align',
@@ -84,6 +86,7 @@ export default createVpb({
             type: 'Column',
             definition: VpbColumn,
             name: 'Column Renderer',
+            icon:'mdi-table-column-plus-after',
             isRenderer: true,
             description: 'A basic wrapper that renders components in a column',
             props: [

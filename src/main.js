@@ -5,6 +5,7 @@ import {createPinia} from "pinia";
 import './vpb/styles/index.css'
 import './assets/styles.css'
 import vpb from "@/plugins/vpb";
+import '@mdi/font/css/materialdesignicons.css'
 
 createApp(App)
     .use(router)

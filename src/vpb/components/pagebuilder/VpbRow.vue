@@ -1,6 +1,7 @@
 <template>
-  <div class="wrap" :class="{'edit-mode':isEditMode}">
+  <vpb-style-wrapper v-bind="{...props}">
     <div class="grid"
+         :class="{'edit-mode':isEditMode}"
          :style="{
           'align-items':align,
           'grid-template-rows':rows,
@@ -11,9 +12,7 @@
         <vpb-component :component="c" :index="index" :post-name="postName"></vpb-component>
       </div>
     </div>
-  </div>
-
-
+  </vpb-style-wrapper>
 </template>
 
 <script>
@@ -22,14 +21,16 @@ import {toRefs} from "vue";
 import VpbAddComponent from "@/vpb/components/pagebuilder/VpbAddComponent";
 import VpbComponent from "@/vpb/components/pagebuilder/VpbComponent";
 import ComponentProps from "@/vpb/models/RequiredProps";
+import VpbStyleWrapper from "@/vpb/components/pagebuilder/VpbStyleWrapper";
+import {stylingProps} from "@/vpb/models/StylingProps";
 
 export default {
-  components: {VpbComponent, VpbAddComponent},
-  props: {...ComponentProps, rows: String, columns: String, gap: String,align:String},
+  components: {VpbStyleWrapper, VpbComponent, VpbAddComponent},
+  props: {...ComponentProps, rows: String, columns: String, gap: String, align: String, ...stylingProps},
   name: "VpbRow",
   setup(props) {
-    const {children, id, postName, isEditMode, rows, columns, gap,align} = toRefs(props)
-    return {children, id, postName, isEditMode, rows, columns, gap, align}
+    const {children, id, postName, isEditMode, rows, columns, gap, align} = toRefs(props)
+    return {children, id, postName, isEditMode, rows, columns, gap, align,props}
   }
 }
 </script>

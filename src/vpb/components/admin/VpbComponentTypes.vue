@@ -1,11 +1,12 @@
 <template>
   <div class="grid grid-cols-2 p-2 m-1 rounded-xl">
-    <div class="bg-white rounded shadow flex flex-col justify-center items-center p-3 m-1 hover:bg-slate-300"
+    <div class="component-type bg-white rounded shadow flex flex-col justify-center items-center  p-3 m-1 hover:bg-slate-300"
          v-for="c in componentTypes" draggable="true"
          @dragstart="onComponentTypeDrag($event, c)"
          @dragend="onComponentTypeDragEnd"
     >
-      {{ c.label }}
+      <i  :class="'mdi '+c.icon"></i>
+      <span class="text-center">{{ c.label }}</span>
     </div>
   </div>
   <div>
@@ -39,5 +40,8 @@ export default {
 </script>
 
 <style scoped>
+.component-type i{
+  font-size: 20px;
+}
 
 </style>

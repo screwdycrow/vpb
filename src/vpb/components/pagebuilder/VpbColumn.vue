@@ -1,18 +1,11 @@
 <template>
-  <div class="wrap" :style="{
-   'background-color':backgroundColor,
-  'margin': margin,
-  'padding':padding,
-  'color':textColor,
-  'border-radius':borderRadius,
-  'border-color':borderColor
-  }" :class="{'edit-mode':isEditMode}">
-    <div class="column">
-      <div class="component" v-for="(c, index) in children" :key="c.id">
-        <vpb-component :component="c" :index="index" :post-name="postName"></vpb-component>
-      </div>
-    </div>
-  </div>
+ <vpb-style-wrapper v-bind="{...props}">
+   <div class="column">
+     <div class="component" v-for="(c, index) in children" :key="c.id">
+       <vpb-component  :component="c" :index="index" :post-name="postName"></vpb-component>
+     </div>
+   </div>
+ </vpb-style-wrapper>
 </template>
 
 <script>
@@ -20,38 +13,26 @@ import {reactive, ref, toRefs} from "vue";
 import VpbComponent from "@/vpb/components/pagebuilder/VpbComponent";
 import ComponentProps from "@/vpb/models/RequiredProps";
 import {stylingProps, stylingPropDefinitions} from "@/vpb/models/StylingProps";
-import usePropEditorValues from "@/vpb/composables/usePropEditorValues";
+import VpbStyleWrapper from "@/vpb/components/pagebuilder/VpbStyleWrapper";
 
 export default {
   name: "VpbColumn",
-  components: {VpbComponent},
+  components: {VpbStyleWrapper, VpbComponent},
   props: {...ComponentProps, ...stylingProps},
   setup(props) {
-    const {cssFourSidesValue} = usePropEditorValues()
     const {
       children,
       id,
       postName,
       isEditMode,
-      backgroundColor,
-      margin,
-      padding,
-      textColor,
-      borderRadius,
-      borderColor
     } = toRefs(props)
 
     return {
+      props,
       children,
       id,
       postName,
       isEditMode,
-      backgroundColor,
-      textColor,
-      borderColor: borderColor,
-      borderRadius: cssFourSidesValue(borderRadius.value),
-      margin: cssFourSidesValue(margin.value),
-      padding: cssFourSidesValue(padding.value)
     }
   }
 }
