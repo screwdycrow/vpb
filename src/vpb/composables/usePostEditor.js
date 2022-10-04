@@ -21,6 +21,7 @@ export default function usePostEditor(){
         adminStore.updatePost(activePost.value);
         editorStore.setActivePost(activePost.value)
         editorStore.setEditablePost(activePost.value)
+        editorStore.setActiveComponent(null);
 
     }
     const addComponent = (type,parent,index) =>{

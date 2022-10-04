@@ -15,12 +15,12 @@
 <script>
 import {stylingProps} from "@/vpb/models/StylingProps";
 import usePropEditorValues from "@/vpb/composables/usePropEditorValues";
-import {toRefs} from "vue";
+import {toRefs,computed} from "vue";
 
 export default {
   name: "VpbStyleWrapper",
-  props:{...stylingProps},
-  setup(props){
+  props: {...stylingProps},
+  setup(props) {
     const {cssFourSidesValue} = usePropEditorValues()
     const {
       backgroundColor,
@@ -36,10 +36,10 @@ export default {
       backgroundColor,
       textColor,
       borderColor: borderColor,
-      borderWidth:cssFourSidesValue(borderWidth.value),
-      borderRadius: cssFourSidesValue(borderRadius.value),
-      margin: cssFourSidesValue(margin.value),
-      padding: cssFourSidesValue(padding.value)
+      borderWidth: computed(()=> cssFourSidesValue(borderWidth.value)),
+      borderRadius: computed( () => cssFourSidesValue(borderRadius.value)),
+      margin: computed(()=> cssFourSidesValue(margin.value)),
+      padding: computed(() => cssFourSidesValue(padding.value))
     }
   }
 }

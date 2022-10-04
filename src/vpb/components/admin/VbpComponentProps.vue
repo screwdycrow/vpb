@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <div v-for="prop in  componentProps" class="mt-1 mb-2">
-      <component  v-bind="{prop}" :is="propEditorOf(prop.type).definition" :key="prop.name"></component>
+      <component  v-bind="{prop}" :is="propEditorOf(prop.type).definition" :key="activeComponent.id+prop.name"></component>
     </div>
 
   </div>
