@@ -56,7 +56,7 @@ const stylingPropDefinitions = [
 const stylingProps = {
     padding:{type:Array, default:()=>['0','0','0','0']},
     margin:{type:String, default:()=>['0','0','0','0']},
-    color:String,
+    textColor:String,
     backgroundColor:String,
     borderWidth:{type:String, default:()=>['0','0','0','0']},
     borderColor:String,
