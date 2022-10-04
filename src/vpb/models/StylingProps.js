@@ -2,49 +2,56 @@ import Prop from "@/vpb/models/Prop";
 
 const stylingPropDefinitions = [
     new Prop({
-        group:'Styling',
+        tab:'Styling',
+        group:'Spacing',
         name:'padding',
         label:'Padding',
         type: 'cssFourSides',
         defaultValue: ['0','0','0','0']
     }),
     new Prop({
-        group:'Styling',
+        tab:'Styling',
+        group:'Spacing',
         name:'margin',
         label:'Margin',
         type: 'cssFourSides',
         defaultValue: ['0','0','0','0']
     }),
     new Prop({
-        group:'Styling',
+        tab:'Styling',
+        group:'Spacing',
         name:'borderWidth',
         label:'Border Width',
         type: 'cssFourSides',
         defaultValue: ['0','0','0','0']
     }),
     new Prop({
-        group:'Styling',
+        tab:'Styling',
+        group:'Spacing',
         name:'borderRadius',
         label:'Border Radius',
         type: 'cssFourSides',
         defaultValue: ['0','0','0','0']
     }),
     new Prop({
-        group:'Styling',
+        tab:'Styling',
+        group:'Spacing',
         type: 'color',
         name: 'backgroundColor',
         label: 'Background',
         defaultValue: 'transparent'
     }),
     new Prop({
-        group:'Styling',
+        tab:'Styling',
+        group:'Spacing',
         type: 'color',
         name: 'textColor',
         label: 'Text Color',
         defaultValue: '#222'
     }),
     new Prop({
-        group:'Styling',
+        tab:'Styling',
+        group:'Spacing',
         type: 'color',
         name: 'borderColor',
         label: 'Border Color',

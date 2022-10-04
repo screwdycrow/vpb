@@ -5,28 +5,31 @@ import Post from "@/vpb/models/Post";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
 import Title from "@/components/Title";
 import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
-import PropArray from "@/vpb/models/PropArray";
 import PropEditor from "@/vpb/models/PropEditor";
-import {markRaw} from "vue";
 import VpbPropTextField from "@/vpb/components/propEditors/VpbPropTextField";
 import VpbPropColor from "@/vpb/components/propEditors/VpbPropColor";
 import {stylingPropDefinitions} from "@/vpb/models/StylingProps";
 import VpbCssFourSidesField from "@/vpb/components/propEditors/VpbCssFourSidesField";
+import VpbPostBlank from "@/vpb/views/VpbPostBlank";
 
 export default createVpb({
-    propEditors:[
-      new PropEditor({
-          type:'text',
-          label: 'Text Input',
-          definition: VpbPropTextField
-      }),
+
+    templates: {
+        'Blank': VpbPostBlank
+    },
+    propEditors: [
+        new PropEditor({
+            type: 'text',
+            label: 'Text Input',
+            definition: VpbPropTextField
+        }),
         new PropEditor({
             type: 'color',
             label: 'Color Input',
             definition: VpbPropColor
         }),
         new PropEditor({
-            type:'cssFourSides',
+            type: 'cssFourSides',
             label: 'Top Left Bottom Right',
             definition: VpbCssFourSidesField
         })
@@ -50,7 +53,7 @@ export default createVpb({
         new ComponentType({
             type: 'Row',
             definition: VpbRow,
-            icon:'mdi-table',
+            icon: 'mdi-table',
             name: 'Row Renderer',
             isRenderer: true,
             description: 'A basic wrapper that renders components in a row ',
@@ -86,12 +89,12 @@ export default createVpb({
             type: 'Column',
             definition: VpbColumn,
             name: 'Column Renderer',
-            icon:'mdi-table-column-plus-after',
+            icon: 'mdi-table-column-plus-after',
             isRenderer: true,
             description: 'A basic wrapper that renders components in a column',
             props: [
                 ...stylingPropDefinitions
-              ]
+            ]
         })
     ],
     addPostRequest: (post) => {

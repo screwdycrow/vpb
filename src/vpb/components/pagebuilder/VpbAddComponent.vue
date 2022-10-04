@@ -34,7 +34,7 @@ export default {
       if (dragging.value === 'componentType') {
         postEditor.onComponentTypeDrop(evt, id.value,index.value)
       }else if(dragging.value === 'component'){
-        postEditor.onComponentDrop(evt, id.value, index.value)
+        postEditor.onComponentDrop(evt,id.value, id.value, index.value)
       }
       emit('addedComponent')
 

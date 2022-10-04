@@ -1,6 +1,6 @@
 <template>
   <div class="component-content rounded"
-       :class="{'edit-mode-component':isEditMode,'droppable':isRenderer && dragging!==null,'disable-self':dragSelf}"
+       :class="{'edit-mode-component':isEditMode,'droppable':isRenderer && dragging!==null}"
        :draggable="isEditMode"
        @click="onClick($event, component,isRenderer)"
        @dragenter.prevent="onDragEnter($event,component)"
@@ -117,7 +117,7 @@ export default {
       evt.stopPropagation();
       dragLeave.value = 0;
       if (dragging.value === 'component') {
-        editor.onComponentDrop(evt, component.value.parent, index.value)
+        editor.onComponentDrop(evt, component.value.id, component.value.parent, index.value)
       }
     }
     return {

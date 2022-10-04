@@ -34,8 +34,9 @@ export default function usePostEditor(){
         const type = evt.dataTransfer.getData('type')
         addComponent(type,parent,index);
     }
-    const onComponentDrop = (evt, parent, index)=>{
+    const onComponentDrop = (evt, droppedIntoId, parent, index)=>{
         const component = JSON.parse(evt.dataTransfer.getData('component'))
+        if(component.id === droppedIntoId) return;
         editorStore.moveComponent(component,parent, index);
     }
     const onComponentClick= (evt,component,isRenderer)=>{
