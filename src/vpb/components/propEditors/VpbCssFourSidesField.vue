@@ -57,6 +57,7 @@ export default {
       linkFields.value = !linkFields.value
     }
     const onFieldInput = (evt)=>{
+      console.log(activeComponent.value)
       if(!linkFields.value)return;
       activeComponent.value.props[prop.value.name][0] = evt.target.value
       activeComponent.value.props[prop.value.name][1] = evt.target.value

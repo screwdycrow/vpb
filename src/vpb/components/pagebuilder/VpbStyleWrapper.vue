@@ -37,7 +37,7 @@ export default {
       textColor,
       borderColor: borderColor,
       borderWidth: computed(()=> cssFourSidesValue(borderWidth.value)),
-      borderRadius: computed( () => cssFourSidesValue(borderRadius.value)),
+      borderRadius: computed( () => borderRadius.value.join(' ')),
       margin: computed(()=> cssFourSidesValue(margin.value)),
       padding: computed(() => cssFourSidesValue(padding.value))
     }

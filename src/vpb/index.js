@@ -1,5 +1,15 @@
 import {useVpbAdminStore} from "@/vpb/stores/vpbAdminStore";
 import VpbPost from "@/vpb/views/VpbPost";
+import PropEditor from "@/vpb/models/PropEditor";
+import VpbPropTextField from "@/vpb/components/propEditors/VpbPropTextField";
+import VpbPropColor from "@/vpb/components/propEditors/VpbPropColor";
+import VpbCssFourSidesField from "@/vpb/components/propEditors/VpbCssFourSidesField";
+import ComponentType from "@/vpb/models/ComponentType";
+import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
+import {stylingPropDefinitions} from "@/vpb/models/StylingProps";
+import Prop from "@/vpb/models/Prop";
+import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
+import VpbPostBlank from "@/vpb/views/VpbPostBlank";
 
 
 /**
@@ -29,6 +39,70 @@ export function createVpb(
                 removePost: removePostRequest,
                 addPost: addPostRequest
             })
+            registerPropEditors([
+                new PropEditor({
+                    type: 'text',
+                    label: 'Text Input',
+                    definition: VpbPropTextField
+                }),
+                new PropEditor({
+                    type: 'color',
+                    label: 'Color Input',
+                    definition: VpbPropColor
+                }),
+                new PropEditor({
+                    type: 'cssFourSides',
+                    label: 'Top Left Bottom Right',
+                    definition: VpbCssFourSidesField
+                })])
+            registerComponentTypes([
+                new ComponentType({
+                    type: 'Row',
+                    definition: VpbRow,
+                    icon: 'mdi-table-row',
+                    name: 'Row Renderer',
+                    isRenderer: true,
+                    description: 'A basic wrapper that renders components in a row ',
+                    props: [
+                        ...stylingPropDefinitions,
+                        new Prop({
+                            type: 'text',
+                            name: 'align',
+                            label: 'Align Items',
+                            defaultValue: 'stretch'
+                        }),
+                        new Prop({
+                            name: 'rows',
+                            type: 'text',
+                            label: 'Rows',
+                            defaultValue: '100%'
+                        }),
+                        new Prop({
+                            name: 'columns',
+                            type: 'text',
+                            label: 'Columns',
+                            defaultValue: '33.3% 33.3% 33.3%'
+                        }),
+                        new Prop({
+                            name: 'gap',
+                            type: 'text',
+                            label: 'Gutter',
+                            defaultValue: '10px'
+                        })
+                    ]
+                }),
+                new ComponentType({
+                    type: 'Column',
+                    definition: VpbColumn,
+                    name: 'Column Renderer',
+                    icon: 'mdi-table-column',
+                    isRenderer: true,
+                    description: 'A basic wrapper that renders components in a column',
+                    props: [
+                        ...stylingPropDefinitions
+                    ]
+                })
+            ])
             registerPropEditors(propEditors)
             registerComponentTypes(componentTypes);
             registerTemplates(templates);
@@ -47,28 +121,33 @@ function registerComponentTypes(componentTypes) {
     })
 }
 
-function registerPropEditors(propEditors){
+function registerPropEditors(propEditors) {
     const vpbAdminStore = useVpbAdminStore()
-    propEditors.forEach(propEditor=>{
+    propEditors.forEach(propEditor => {
         vpbAdminStore.addPropEditor(propEditor)
     })
 }
+
 function registerTemplates(templates) {
     const vpbAdminStore = useVpbAdminStore()
-    vpbAdminStore.setTemplates({'Default': VpbPost, ...templates ? templates : {}})
+    vpbAdminStore.setTemplates({
+        'Default': VpbPost,
+        'Blank': VpbPostBlank,
+        ...templates ? templates : {}
+    })
 }
 
 function registerRoutes(posts, router) {
     const vpbAdminStore = useVpbAdminStore()
     posts.forEach(p => {
         router.addRoute({
-                name: p.name,
-                component: vpbAdminStore.templateComponentOfName(p.template),
-                path: p.path,
-                props: {
-                    name: p.name
-                }
-            })
+            name: p.name,
+            component: vpbAdminStore.templateComponentOfName(p.template),
+            path: p.path,
+            props: {
+                name: p.name
+            }
+        })
     })
 }
 

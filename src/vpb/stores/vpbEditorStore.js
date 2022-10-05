@@ -5,7 +5,7 @@ import {reactive} from "vue";
 import Component from "@/vpb/models/Component";
 import {useVpbAdminStore} from "@/vpb/stores/vpbAdminStore";
 
-const _ = require('lodash');
+import {cloneDeep} from "lodash";
 
 export const useVpbEditorStore = defineStore('vpbEditor', {
     state: () => ({
@@ -21,21 +21,20 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
     }),
     actions: {
         setEditablePost(post) {
-            this.editablePosts.set(post.name, _.cloneDeep(post))
+            this.editablePosts.set(post.name, cloneDeep(post))
         },
         unsetEditablePost(post) {
             this.editablePosts.delete(post.name)
         },
         setActivePost(post) {
-            this.activePost = new Post(_.cloneDeep(post));
-            this.activePostCopy = new Post(_.cloneDeep(post));
+            this.activePost = new Post(cloneDeep(post));
+            this.activePostCopy = new Post(cloneDeep(post));
         },
         setActiveRenderAdd(renderer) {
             this.activeRendererAdd = renderer;
             this.activeComponent = null;
         },
         moveComponent(component, newParent, order) {
-            console.log(component, newParent);
             const index = this.activePost.content[component.parent].findIndex(c => c.id === component.id)
             this.activePost.content[component.parent].splice(index, 1)
             component.parent = newParent
@@ -52,7 +51,9 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             let props = Array.from(componentType.props.values())
             let propValues = {}
             props.forEach(p => {
-                propValues[p.name] = p.default
+                // make sure default props are not passed by reference if they are an object...
+                let props = typeof p === "object"? cloneDeep(p) : p
+                propValues[props.name] = props.default
             })
             let id = Math.random().toString(36).substr(2, 9);
             const component = new Component({
@@ -70,10 +71,11 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             this.activePost.content[parent].push(component)
         },
         setActiveComponent(component) {
+            this.activeComponent = null;
             this.activeComponent = component;
         },
         updateHistory(post) {
-            this.history.push(_.cloneDeep(post))
+            this.history.push(cloneDeep(post))
         },
         setDragging(value) {
             this.dragging = value;

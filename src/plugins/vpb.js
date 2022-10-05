@@ -18,21 +18,6 @@ export default createVpb({
         'Blank': VpbPostBlank
     },
     propEditors: [
-        new PropEditor({
-            type: 'text',
-            label: 'Text Input',
-            definition: VpbPropTextField
-        }),
-        new PropEditor({
-            type: 'color',
-            label: 'Color Input',
-            definition: VpbPropColor
-        }),
-        new PropEditor({
-            type: 'cssFourSides',
-            label: 'Top Left Bottom Right',
-            definition: VpbCssFourSidesField
-        })
     ],
     componentTypes: [
         new ComponentType({
@@ -50,52 +35,6 @@ export default createVpb({
                     defaultValue: 'title'
                 })]
         }),
-        new ComponentType({
-            type: 'Row',
-            definition: VpbRow,
-            icon: 'mdi-table',
-            name: 'Row Renderer',
-            isRenderer: true,
-            description: 'A basic wrapper that renders components in a row ',
-            props: [
-                ...stylingPropDefinitions,
-                new Prop({
-                    type: 'text',
-                    name: 'align',
-                    label: 'Align Items',
-                    defaultValue: 'stretch'
-                }),
-                new Prop({
-                    name: 'rows',
-                    type: 'text',
-                    label: 'Rows',
-                    defaultValue: '100%'
-                }),
-                new Prop({
-                    name: 'columns',
-                    type: 'text',
-                    label: 'Columns',
-                    defaultValue: '33.3% 33.3% 33.3%'
-                }),
-                new Prop({
-                    name: 'gap',
-                    type: 'text',
-                    label: 'Gutter',
-                    defaultValue: '10px'
-                })
-            ]
-        }),
-        new ComponentType({
-            type: 'Column',
-            definition: VpbColumn,
-            name: 'Column Renderer',
-            icon: 'mdi-table-column-plus-after',
-            isRenderer: true,
-            description: 'A basic wrapper that renders components in a column',
-            props: [
-                ...stylingPropDefinitions
-            ]
-        })
     ],
     addPostRequest: (post) => {
         return new Promise((resolve, reject) => {
