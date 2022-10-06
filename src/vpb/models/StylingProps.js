@@ -62,11 +62,11 @@ const stylingPropDefinitions = [
 ]
 const stylingProps = {
     padding:{type:Array, default:()=>['0','0','0','0']},
-    margin:{type:String, default:()=>['0','0','0','0']},
+    margin:{type:Array, default:()=>['0','0','0','0']},
     textColor:String,
     backgroundColor:String,
-    borderWidth:{type:String, default:()=>['0','0','0','0']},
+    borderWidth:{type:Array, default:()=>['0','0','0','0']},
     borderColor:String,
-    borderRadius:{type:String, default:()=>['0','0','0','0']}
+    borderRadius:{type:Array, default:()=>['0','0','0','0']}
 }
 export  { stylingProps, stylingPropDefinitions}

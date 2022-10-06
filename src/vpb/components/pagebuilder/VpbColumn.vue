@@ -1,5 +1,13 @@
 <template>
- <vpb-style-wrapper v-bind="{...props}">
+  <vpb-style-wrapper
+      :background-color="backgroundColor"
+      :text-color="textColor"
+      :border-color="borderColor"
+      :border-width="borderWidth"
+      :border-radius="borderRadius"
+      :margin="margin"
+      :padding="padding"
+  >
    <div class="column">
      <div class="component" v-for="(c, index) in children" :key="c.id">
        <vpb-component  :component="c" :index="index" :post-name="postName"></vpb-component>
@@ -20,20 +28,7 @@ export default {
   components: {VpbStyleWrapper, VpbComponent},
   props: {...ComponentProps, ...stylingProps},
   setup(props) {
-    const {
-      children,
-      id,
-      postName,
-      isEditMode,
-    } = toRefs(props)
-
-    return {
-      props,
-      children,
-      id,
-      postName,
-      isEditMode,
-    }
+    return {...toRefs(props)}
   }
 }
 </script>

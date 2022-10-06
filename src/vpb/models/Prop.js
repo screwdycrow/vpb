@@ -3,8 +3,8 @@ export default class Prop{
         this.name = name
         this.type = type;
         this.label = label;
-        this.group =  group || 'default';
-        this.tab = tab || 'default'
+        this.group =  group || 'Default';
+        this.tab = tab || 'Main'
         this.default = defaultValue;
     }
 }

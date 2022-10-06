@@ -10,6 +10,7 @@ import {stylingPropDefinitions} from "@/vpb/models/StylingProps";
 import Prop from "@/vpb/models/Prop";
 import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
 import VpbPostBlank from "@/vpb/views/VpbPostBlank";
+import {markRaw} from "vue";
 
 
 /**
@@ -64,7 +65,6 @@ export function createVpb(
                     isRenderer: true,
                     description: 'A basic wrapper that renders components in a row ',
                     props: [
-                        ...stylingPropDefinitions,
                         new Prop({
                             type: 'text',
                             name: 'align',
@@ -88,7 +88,8 @@ export function createVpb(
                             type: 'text',
                             label: 'Gutter',
                             defaultValue: '10px'
-                        })
+                        }),
+                        ...stylingPropDefinitions,
                     ]
                 }),
                 new ComponentType({
@@ -131,8 +132,8 @@ function registerPropEditors(propEditors) {
 function registerTemplates(templates) {
     const vpbAdminStore = useVpbAdminStore()
     vpbAdminStore.setTemplates({
-        'Default': VpbPost,
-        'Blank': VpbPostBlank,
+        'Default': markRaw(VpbPost) ,
+        'Blank': markRaw(VpbPostBlank),
         ...templates ? templates : {}
     })
 }

@@ -1,15 +1,7 @@
 import {createVpb} from "@/vpb";
 import ComponentType from "@/vpb/models/ComponentType";
 import Prop from "@/vpb/models/Prop";
-import Post from "@/vpb/models/Post";
-import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
 import Title from "@/components/Title";
-import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
-import PropEditor from "@/vpb/models/PropEditor";
-import VpbPropTextField from "@/vpb/components/propEditors/VpbPropTextField";
-import VpbPropColor from "@/vpb/components/propEditors/VpbPropColor";
-import {stylingPropDefinitions} from "@/vpb/models/StylingProps";
-import VpbCssFourSidesField from "@/vpb/components/propEditors/VpbCssFourSidesField";
 import VpbPostBlank from "@/vpb/views/VpbPostBlank";
 
 export default createVpb({

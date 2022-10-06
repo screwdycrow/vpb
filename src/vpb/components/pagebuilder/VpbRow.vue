@@ -1,5 +1,13 @@
 <template>
-  <vpb-style-wrapper v-bind="{...props}">
+  <vpb-style-wrapper
+      :background-color="backgroundColor"
+      :text-color="textColor"
+      :border-color="borderColor"
+      :border-width="borderWidth"
+      :border-radius="borderRadius"
+      :margin="margin"
+      :padding="padding"
+  >
     <div class="grid"
          :class="{'edit-mode':isEditMode}"
          :style="{
@@ -29,8 +37,7 @@ export default {
   props: {...ComponentProps, rows: String, columns: String, gap: String, align: String, ...stylingProps},
   name: "VpbRow",
   setup(props) {
-    const {children, id, postName, isEditMode, rows, columns, gap, align} = toRefs(props)
-    return {children, id, postName, isEditMode, rows, columns, gap, align,props}
+    return {...toRefs(props)}
   }
 }
 </script>

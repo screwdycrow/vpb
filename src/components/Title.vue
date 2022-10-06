@@ -6,13 +6,13 @@
 import {toRefs} from "vue";
 import {storeToRefs} from "pinia";
 import {useVpbEditorStore} from "@/vpb/stores/vpbEditorStore";
+import ComponentProps from "@/vpb/models/RequiredProps";
+
 
 export default {
   props: {
-    id: String,
-    postName: String,
-    isEditMode:Boolean,
-    text:String,
+    ...ComponentProps,
+    text: String,
   },
   name: "Title",
   setup(props){

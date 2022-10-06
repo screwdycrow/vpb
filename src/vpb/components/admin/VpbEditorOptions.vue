@@ -3,6 +3,10 @@
     <div class="rounded-lg grow">
       <div class="flex justify-between items-center p-3 bg-blue-500 text-white">
         <strong class="font-black">Editing {{ activePost.title }} </strong>
+        <!-- make button to toggle show component types -->
+        <button :class="{'bg-blue-400':activeComponent === null}" class="hover:bg-blue-400 h text-white rounded-lg px-2 py-1" @click="resetActiveComponent()">
+          <i class="mdi mdi-widgets"></i>
+        </button>
       </div>
       <hr>
       <div v-if="activeComponent === null ">
@@ -49,7 +53,10 @@ export default {
     const activePostName = computed(() => {
       return activePost.value ? activePost.value.name : null;
     })
-    return {activePost, activePostName, saveChanges, cancelChanges, activeRendererAdd,activeComponent}
+    const resetActiveComponent = () => {
+      postEditor.resetActiveComponent();
+    }
+    return {activePost, activePostName, saveChanges, cancelChanges, resetActiveComponent, activeRendererAdd,activeComponent}
   }
 }
 </script>
