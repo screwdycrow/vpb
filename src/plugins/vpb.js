@@ -1,8 +1,12 @@
 import {createVpb} from "@/vpb";
 import ComponentType from "@/vpb/models/ComponentType";
 import Prop from "@/vpb/models/Prop";
+import PropEditor from "@/vpb/models/PropEditor";
 import Title from "@/components/Title";
 import VpbPostBlank from "@/vpb/views/VpbPostBlank";
+import {usePropTextDefinition} from "@/vpb/composables/TextProps";
+import DataTable from "@/components/DataTable";
+import DataTableColumnEditor from "@/components/editors/DataTableColumnEditor";
 
 export default createVpb({
 
@@ -10,6 +14,11 @@ export default createVpb({
         'Blank': VpbPostBlank
     },
     propEditors: [
+        new PropEditor({
+            type: 'dataTableColumns',
+            label: 'Data Table Columns',
+            definition: DataTableColumnEditor
+        })
     ],
     componentTypes: [
         new ComponentType({
@@ -25,8 +34,40 @@ export default createVpb({
                     type: 'text',
                     label: 'Text',
                     defaultValue: 'title'
-                })]
+                }),
+                ...usePropTextDefinition('26px', 'inherit', 'inherit')
+            ],
         }),
+        new ComponentType({
+            type: 'DataTable',
+            definition: DataTable,
+            name: 'Data Table',
+            isRenderer: false,
+            icon: 'mdi-table',
+            description: 'A basic datatable',
+            props: [
+                new Prop({
+                    name: 'columns',
+                    type: 'dataTableColumns',
+                    label: 'Columns',
+                    defaultValue: [{title:'Column 1', field:'column1',formatter: 'plainText'}]
+                }),
+                new Prop({
+                    name:'endpoint',
+                    type:'text',
+                    label:'API Endpoint',
+                    defaultValue:'https://catfact.ninja/breeds',
+                    tab:'Data Load'
+                }),
+                new Prop({
+                    name:'data',
+                    type:'text',
+                    label:'Data',
+                    defaultValue:'data',
+                    tab:'Data Load'
+                })
+            ],
+        })
     ],
     addPostRequest: (post) => {
         return new Promise((resolve, reject) => {

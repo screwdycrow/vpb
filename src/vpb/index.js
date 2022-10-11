@@ -6,11 +6,15 @@ import VpbPropColor from "@/vpb/components/propEditors/VpbPropColor";
 import VpbCssFourSidesField from "@/vpb/components/propEditors/VpbCssFourSidesField";
 import ComponentType from "@/vpb/models/ComponentType";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
-import {stylingPropDefinitions} from "@/vpb/models/StylingProps";
+
 import Prop from "@/vpb/models/Prop";
 import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
 import VpbPostBlank from "@/vpb/views/VpbPostBlank";
 import {markRaw} from "vue";
+import {useStylingPropsDefinition} from "@/vpb/composables/StylingProps";
+import {usePropTextDefinition} from "@/vpb/composables/TextProps";
+import VpbTextEditor from "@/vpb/components/pagebuilder/VpbTextEditor";
+import VpbTextareaField from "@/vpb/components/propEditors/VpbTextareaField";
 
 
 /**
@@ -45,6 +49,11 @@ export function createVpb(
                     type: 'text',
                     label: 'Text Input',
                     definition: VpbPropTextField
+                }),
+                new PropEditor({
+                    type: 'textarea',
+                    label: 'Text Area',
+                    definition: VpbTextareaField
                 }),
                 new PropEditor({
                     type: 'color',
@@ -89,7 +98,15 @@ export function createVpb(
                             label: 'Gutter',
                             defaultValue: '10px'
                         }),
-                        ...stylingPropDefinitions,
+                        ...useStylingPropsDefinition(
+                            'transparent',
+                            [0, 0, 0, 0],
+                            [0, 0, 0, 0],
+                            [0, 0, 0, 0],
+                            [0, 0, 0, 0],
+                            'transparent',
+                        ),
+                        ...usePropTextDefinition('inherit', 'inherit', 'inherit')
                     ]
                 }),
                 new ComponentType({
@@ -100,8 +117,34 @@ export function createVpb(
                     isRenderer: true,
                     description: 'A basic wrapper that renders components in a column',
                     props: [
-                        ...stylingPropDefinitions
+                        ...useStylingPropsDefinition(
+                            'transparent',
+                            [0, 0, 0, 0],
+                            [0, 0, 0, 0],
+                            [0, 0, 0, 0],
+                            [0, 0, 0, 0],
+                            'transparent',
+                        ),
+                        ...usePropTextDefinition('inherit', 'inherit', 'inherit')
                     ]
+                }),
+                new ComponentType({
+                    type: 'Text',
+                    definition: VpbTextEditor,
+                    name: 'Text Renderer',
+                    icon: 'mdi-text',
+                    isRenderer: false,
+                    description: 'A basic wrapper that renders text',
+                    props: [
+                        new Prop({
+                            name: 'content',
+                            type: 'textarea',
+                            label: 'Text',
+                            defaultValue: 'This is a simple dummy text used for typography'
+                        }),
+                        ...usePropTextDefinition('inherit', 'inherit', 'inherit')
+                    ]
+
                 })
             ])
             registerPropEditors(propEditors)
@@ -132,7 +175,7 @@ function registerPropEditors(propEditors) {
 function registerTemplates(templates) {
     const vpbAdminStore = useVpbAdminStore()
     vpbAdminStore.setTemplates({
-        'Default': markRaw(VpbPost) ,
+        'Default': markRaw(VpbPost),
         'Blank': markRaw(VpbPostBlank),
         ...templates ? templates : {}
     })

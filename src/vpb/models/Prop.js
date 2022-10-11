@@ -5,6 +5,6 @@ export default class Prop{
         this.label = label;
         this.group =  group || 'Default';
         this.tab = tab || 'Main'
-        this.default = defaultValue;
+        this.defaultValue = defaultValue;
     }
 }

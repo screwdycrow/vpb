@@ -5,7 +5,7 @@
       <div v-if="activePost" style="width:250px; height:100vh">
         <vpb-editor-options style="height:100%; width: 250px;  position: fixed;"></vpb-editor-options>
       </div>
-      <div class="grow">
+      <div class="flex-1">
         <router-view/>
       </div>
     </div>

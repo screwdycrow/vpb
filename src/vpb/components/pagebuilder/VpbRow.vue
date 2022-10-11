@@ -1,9 +1,11 @@
 <template>
   <vpb-style-wrapper
       :background-color="backgroundColor"
-      :text-color="textColor"
+      :font-color="fontColor"
       :border-color="borderColor"
       :border-width="borderWidth"
+      :font-weight="fontWeight"
+      :font-size="fontSize"
       :border-radius="borderRadius"
       :margin="margin"
       :padding="padding"
@@ -30,11 +32,23 @@ import VpbAddComponent from "@/vpb/components/pagebuilder/VpbAddComponent";
 import VpbComponent from "@/vpb/components/pagebuilder/VpbComponent";
 import ComponentProps from "@/vpb/models/RequiredProps";
 import VpbStyleWrapper from "@/vpb/components/pagebuilder/VpbStyleWrapper";
-import {stylingProps} from "@/vpb/models/StylingProps";
+import {useStylingProps} from "@/vpb/composables/StylingProps";
+import {useTextProps} from "@/vpb/composables/TextProps";
 
 export default {
   components: {VpbStyleWrapper, VpbComponent, VpbAddComponent},
-  props: {...ComponentProps, rows: String, columns: String, gap: String, align: String, ...stylingProps},
+  props: {
+    ...ComponentProps, rows: String, columns: String, gap: String, align: String,
+    ...useStylingProps(
+        'transparent',
+        ['0', '0', '0', '0'],
+        ['0', '0', '0', '0'],
+        ['0', '0', '0', '0'],
+        ['0', '0', '0', '0'],
+        'transparent',
+    ),
+    ...useTextProps('inherit', 'inherit', '')
+  },
   name: "VpbRow",
   setup(props) {
     return {...toRefs(props)}

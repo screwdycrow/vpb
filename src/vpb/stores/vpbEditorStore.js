@@ -45,6 +45,7 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             if (this.activePost.content[component.id]) delete this.activePost.content[component.id];
             this.activePost.content[component.parent].splice(index, 1)
         },
+
         addComponent(type, parent) {
             const adminStore = useVpbAdminStore();
             const componentType = adminStore.componentTypes.get(type)
@@ -52,8 +53,8 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
             let propValues = {}
             props.forEach(p => {
                 // make sure default props are not passed by reference if they are an object...
-                let props = typeof p === "object"? cloneDeep(p) : p
-                propValues[props.name] = props.default
+                let props = typeof p === "object" ? cloneDeep(p) : p
+                propValues[props.name] = props.defaultValue
             })
             let id = Math.random().toString(36).substr(2, 9);
             const component = new Component({
@@ -73,6 +74,28 @@ export const useVpbEditorStore = defineStore('vpbEditor', {
         setActiveComponent(component) {
             this.activeComponent = null;
             this.activeComponent = component;
+            this.fixActiveComponent();
+        },
+        fixActiveComponent() {
+            const adminStore = useVpbAdminStore();
+            let componentProps = Object.keys(this.activeComponent.props);
+            const componentType = adminStore.componentTypes.get(this.activeComponent.componentType)
+            let componentTypeProps = componentType.props;
+            if (this.activeComponent.props) {
+                //find the difference of component props and component type props
+                componentProps
+                    .filter(x => !componentTypeProps.has(x))
+                    .forEach(x => {
+                        delete this.activePostCopy.props[x]
+                    })
+            }
+            //find the difference of component type props and component props
+            Array.from(componentTypeProps.values())
+                .filter(x => !this.activeComponent.props.hasOwnProperty(x.name))
+                .forEach(x => {
+                    this.activeComponent.props[x.name] = typeof componentTypeProps.get(x.name).defaultValue === "object" ? cloneDeep(componentTypeProps.get(x.name).defaultValue) : componentTypeProps.get(x.name).defaultValue
+                })
+
         },
         updateHistory(post) {
             this.history.push(cloneDeep(post))

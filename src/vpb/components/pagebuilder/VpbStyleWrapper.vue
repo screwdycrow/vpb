@@ -3,7 +3,9 @@
    'background-color':backgroundColor,
   'margin': margin,
   'padding':padding,
-  'color':textColor,
+  'color':fontColor,
+  'font-weight':fontWeight,
+  'font-size':fontSize,
   'border-width': borderWidth,
   'border-radius':borderRadius,
   'border-color':borderColor
@@ -13,32 +15,48 @@
 </template>
 
 <script>
-import {stylingProps} from "@/vpb/models/StylingProps";
+import {stylingProps, useStylingProps} from "@/vpb/composables/StylingProps";
 import usePropEditorValues from "@/vpb/composables/usePropEditorValues";
-import {toRefs,computed} from "vue";
+import {toRefs, computed} from "vue";
+import {useTextProps} from "@/vpb/composables/TextProps";
 
+useTextProps('inherit', 'inherit', '')
 export default {
   name: "VpbStyleWrapper",
-  props: {...stylingProps},
+  props: {
+    ...useStylingProps(
+        'transparent',
+        ['0', '0', '0', '0'],
+        ['0', '0', '0', '0'],
+        ['0', '0', '0', '0'],
+        ['0', '0', '0', '0'],
+        'transparent',
+    ),
+    ...useTextProps('inherit', 'inherit', '')
+  },
   setup(props) {
     const {cssFourSidesValue} = usePropEditorValues()
     const {
       backgroundColor,
       margin,
       padding,
-      textColor,
+      fontSize,
+      fontColor,
       borderRadius,
       borderColor,
+      fontWeight,
       borderWidth
     } = toRefs(props)
 
     return {
       backgroundColor,
-      textColor,
+      fontColor,
+      fontSize,
+      fontWeight,
       borderColor: borderColor,
-      borderWidth: computed(()=> cssFourSidesValue(borderWidth.value)),
-      borderRadius: computed( () => borderRadius.value.join(' ')),
-      margin: computed(()=> cssFourSidesValue(margin.value)),
+      borderWidth: computed(() => cssFourSidesValue(borderWidth.value)),
+      borderRadius: computed(() => borderRadius.value.join(' ')),
+      margin: computed(() => cssFourSidesValue(margin.value)),
       padding: computed(() => cssFourSidesValue(padding.value))
     }
   }
