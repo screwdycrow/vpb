@@ -15,6 +15,7 @@ import {useStylingPropsDefinition} from "@/vpb/composables/StylingProps";
 import {usePropTextDefinition} from "@/vpb/composables/TextProps";
 import VpbTextEditor from "@/vpb/components/pagebuilder/VpbTextEditor";
 import VpbTextareaField from "@/vpb/components/propEditors/VpbTextareaField";
+import useVpbFunctions from "@/vpb/composables/useVpbFunctions";
 
 
 /**
@@ -35,6 +36,7 @@ export function createVpb(
         removePostRequest,
         addPostRequest
     }) {
+    const {registerTemplates,registerRoutes,registerPropEditors,registerComponentTypes} = useVpbFunctions()
     return {
         install: (app, {router}) => {
             let vpbAdminStore = useVpbAdminStore();
@@ -157,42 +159,4 @@ export function createVpb(
         }
     }
 }
-
-function registerComponentTypes(componentTypes) {
-    const vpbAdminStore = useVpbAdminStore()
-    componentTypes.forEach(c => {
-        vpbAdminStore.addComponentType(c)
-    })
-}
-
-function registerPropEditors(propEditors) {
-    const vpbAdminStore = useVpbAdminStore()
-    propEditors.forEach(propEditor => {
-        vpbAdminStore.addPropEditor(propEditor)
-    })
-}
-
-function registerTemplates(templates) {
-    const vpbAdminStore = useVpbAdminStore()
-    vpbAdminStore.setTemplates({
-        'Default': markRaw(VpbPost),
-        'Blank': markRaw(VpbPostBlank),
-        ...templates ? templates : {}
-    })
-}
-
-function registerRoutes(posts, router) {
-    const vpbAdminStore = useVpbAdminStore()
-    posts.forEach(p => {
-        router.addRoute({
-            name: p.name,
-            component: vpbAdminStore.templateComponentOfName(p.template),
-            path: p.path,
-            props: {
-                name: p.name
-            }
-        })
-    })
-}
-
 

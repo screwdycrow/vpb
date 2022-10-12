@@ -9,7 +9,7 @@ import {useVpbAdminStore} from "@/vpb/stores/vpbAdminStore";
 import {mapState} from "pinia";
 import VpbComponentTypes from "@/vpb/components/admin/VpbComponentTypes";
 import VpbPostsList from "@/vpb/components/admin/VpbPostsList";
-import DataTable from "@/components/DataTable";
+import DataTable from "@/vpbDatatables/components/DataTable";
 
 export default {
   name: "VpbAdmin",

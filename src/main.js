@@ -6,9 +6,11 @@ import './vpb/styles/index.css'
 import './assets/styles.css'
 import vpb from "@/plugins/vpb";
 import '@mdi/font/css/materialdesignicons.css'
+import vpbDataTable from "@/plugins/vpbDataTable";
 
 createApp(App)
     .use(router)
     .use(createPinia())
     .use(vpb,{router})
+    .use(vpbDataTable)
     .mount('#app')

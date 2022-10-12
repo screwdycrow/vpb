@@ -1,5 +1,4 @@
 <template>
-  <h1> test </h1>
   <div ref="table"></div>
 </template>
 
@@ -8,20 +7,25 @@
 import RequiredProps from "@/vpb/models/RequiredProps";
 import {onMounted, reactive, ref, toRefs, watch} from "vue";
 import {TabulatorFull as Tabulator} from "tabulator-tables";
+import {useVpbDataTableStore} from "@/vpbDatatables/store/vpbDataTableStore";
 
 export default {
   props: {
     columns: {type: Array, default: () => [{title: 'Column 1', field: 'column1', formatter: 'plainText'}]},
     data: {type: String, default: 'data'},
     endpoint: {type: String, default: ''},
+    name: {type: String, default: ''},
     ...RequiredProps
   },
   name: "DataTable",
   setup(props) {
 
-    const {id, columns, isEditMode, postName, endpoint, data} = toRefs(props)
+    const dataTableStore = useVpbDataTableStore()
+    const {id, columns, isEditMode, postName, endpoint, data, name} = toRefs(props)
     const table = ref(null); //reference to your table element
     const tabulator = ref(null); //variable to hold your table
+
+    dataTableStore.setDataTable(id.value, name.value)
     onMounted(() => {
       //instantiate Tabulator when element is mounted
       tabulator.value = new Tabulator(table.value, {
@@ -41,10 +45,15 @@ export default {
         },
       });
     })
-    watch(() => columns, (newColumns) => {
-          tabulator.value.setColumns(newColumns.value)
-        }, {deep: true}
-    )
+    if(isEditMode.value){
+      watch(()=>name,(newName)=>{
+        dataTableStore.setDataTableName(id.value, newName)
+      },{deep:true})
+      watch(() => columns, (newColumns) => {
+            tabulator.value.setColumns(newColumns.value)
+          }, {deep: true}
+      )
+    }
     return {id, isEditMode, postName, table, tabulator}
   }
 }

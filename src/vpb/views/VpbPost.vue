@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import {toRefs} from "vue";
 import {usePost} from "@/vpb/composables/usePost";
 import Vpb from "@/vpb/components/pagebuilder/Vpb";
 
