@@ -1,7 +1,7 @@
 <template>
   <!--  list fields input -->
   <div>
-    <div class="justify-between items-center mt-3  ">
+    <div class=" flex justify-between items-center mt-3  ">
       <label class="text-gray-700 font-bold mr-3"> {{ prop.label }} </label>
       <button @click="addDefault()" class=" bg-blue-500 text-white rounded-lg px-1 rounded-xl"><i
           class="mdi mdi-plus"></i></button>

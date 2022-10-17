@@ -2,18 +2,11 @@
   <vpb-array-object :prop="prop">
     <template v-slot:item-label="data">
       <h2 class="">
-        {{ data.item.eventType }} : {{ data.item.target }}
+        {{ activeComponent.props['name'] || activeComponent.id}} : {{ data.item.target }}
       </h2>
     </template>
     <template v-slot:item="data">
       <div class="grid grid-cols-1 justify-between items-center items-center">
-        <div class="item mr-1">
-          <vpb-select label="Event Type"
-                      option-key="eventType"
-                      option-label="label"
-                      :items="eventTypes"
-                      v-model="activeComponent.props[prop.name][data.index].eventType"/>
-        </div>
         <div class="item mr-1">
           <vpb-select label="Effect"
                       option-key="key"
@@ -28,18 +21,24 @@
                       :items="dataTables"
                       v-model="activeComponent.props[prop.name][data.index].target"/>
         </div>
-        <div class="item mr-1">
-          <label class="text-gray-500"> Source Column  </label>
-          <input class="w-full border border-gray-200 rounded-lg px-1 py-1" type='text'
-                 v-model="activeComponent.props[prop.name][data.index].sourceColumn"
-          />
+        <div class="grid grid-cols-5">
+          <div class="item mr-1 col-span-2 ">
+            <label class="text-gray-500"> {{activeComponent.props['name'] || activeComponent.id}} </label>
+            <input class="w-full border border-gray-200 rounded-lg px-1 py-1" type='text'
+                   v-model="activeComponent.props[prop.name][data.index].sourceField"/>
+          </div>
+          <vpb-select label="Op"
+                      option-key="key"
+                      option-label="label"
+                      :items="operators"
+                      v-model="activeComponent.props[prop.name][data.index].op"/>
+          <div class="item mr-1 col-span-2">
+            <label class="text-gray-500"> {{activeComponent.props[prop.name][data.index].target}}  </label>
+            <input class="w-full border border-gray-200 rounded-lg px-1 py-1" type='text'
+                   v-model="activeComponent.props[prop.name][data.index].targetField"/>
+          </div>
         </div>
-        <div class="item mr-1">
-          <label class="text-gray-500"> Target Column  </label>
-          <input class="w-full border border-gray-200 rounded-lg px-1 py-1" type='text'
-                 v-model="activeComponent.props[prop.name][data.index].targetColumn"
-          />
-        </div>
+
       </div>
     </template>
   </vpb-array-object>
@@ -61,9 +60,14 @@ export default {
   },
   setup(props) {
     const {prop} = toRefs(props)
-    const eventTypes = [
-      {key:'onRowClick', label:'onRowClick'},
-      {key:'onColumnClick', label:'onColumnClick'},
+    const operators=[
+      {key: '=', label: '='},
+      {key: '!=', label: '!='},
+      {key: '>', label: '>'},
+      {key: '>=', label: '>='},
+      {key: '<', label: '<'},
+      {key: '<=', label: '<='},
+      {key: 'like', label: 'like'},
     ]
     const effects = [
       {key:'filter', label:'Filter'},
@@ -73,7 +77,8 @@ export default {
     const dataTableStore = useVpbDataTableStore()
 
     const dataTables = computed(() => dataTableStore.dataTablesArray || [])
-    return {prop, activeComponent, dataTables,eventTypes, effects}
+    datatablesMap = computed(() => dataTableStore.dataTablesMap || {})
+    return {prop, activeComponent, dataTables , effects, operators}
   }
 }
 </script>

@@ -6,16 +6,14 @@ import VpbPropColor from "@/vpb/components/propEditors/VpbPropColor";
 import VpbCssFourSidesField from "@/vpb/components/propEditors/VpbCssFourSidesField";
 import ComponentType from "@/vpb/models/ComponentType";
 import VpbRow from "@/vpb/components/pagebuilder/VpbRow";
-
 import Prop from "@/vpb/models/Prop";
 import VpbColumn from "@/vpb/components/pagebuilder/VpbColumn";
-import VpbPostBlank from "@/vpb/views/VpbPostBlank";
-import {markRaw} from "vue";
 import {useStylingPropsDefinition} from "@/vpb/composables/StylingProps";
 import {usePropTextDefinition} from "@/vpb/composables/TextProps";
 import VpbTextEditor from "@/vpb/components/pagebuilder/VpbTextEditor";
 import VpbTextareaField from "@/vpb/components/propEditors/VpbTextareaField";
 import useVpbFunctions from "@/vpb/composables/useVpbFunctions";
+import VpbCheckboxField from "@/vpb/components/propEditors/VpbCheckboxField";
 
 
 /**
@@ -61,6 +59,11 @@ export function createVpb(
                     type: 'color',
                     label: 'Color Input',
                     definition: VpbPropColor
+                }),
+                new PropEditor({
+                    type: 'checkbox',
+                    label: 'Checkbox',
+                    definition: VpbCheckboxField
                 }),
                 new PropEditor({
                     type: 'cssFourSides',

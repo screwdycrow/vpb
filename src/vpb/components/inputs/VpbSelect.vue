@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <label class="text-gray-500"> {{label}} </label>
-    <select class="w-full border border-gray-200 bg-white rounded-lg px-1 py-2" @change="handleInput" v-model="inputValue">
+    <select class="w-full border border-gray-200 bg-white rounded-lg px-1 py-1.5" @change="handleInput" v-model="inputValue">
       <option v-for="item in items" :value="item[optionKey]"> {{ item[optionLabel] }}</option>
     </select>
   </div>

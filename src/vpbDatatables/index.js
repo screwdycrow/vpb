@@ -20,7 +20,8 @@ export function createVpbDataTable() {
                     type: 'dataTableEvents',
                     label: 'dataTableEvents',
                     definition:dataTableEventEditor
-                })
+                }),
+
             ])
             registerComponentTypes([
                 new ComponentType({
@@ -58,11 +59,18 @@ export function createVpbDataTable() {
                             tab: 'Data Load'
                         }),
                         new Prop({
-                            name: 'events',
+                            name: 'stackFilters',
+                            type: 'checkbox',
+                            label: 'Stack field filters',
+                            defaultValue: false,
+                            tab: 'Events'
+                        }),
+                        new Prop({
+                            name: 'rowClick',
                             tab:'Events',
                             type: 'dataTableEvents',
-                            label: 'Events',
-                            defaultValue: [{eventType: 'Column 1', effect: 'column1', target: 'plainText',sourceColumn:'',targetColumn:''}]
+                            label: 'Row Click',
+                            defaultValue: [{ op:'=',  target: '',sourceField:'',targetField:''}]
                         }),
                     ],
                 })
