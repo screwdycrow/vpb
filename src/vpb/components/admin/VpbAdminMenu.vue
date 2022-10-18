@@ -1,6 +1,6 @@
 <template>
-  <div @focusout="hideDropdown()">
-    <div class=" bg-white shadow-lg flex flex flex-col" v-if="showOptions">
+  <div @focusout="hideDropdown()" style="z-index: 100">
+    <div class=" bg-white shadow-lg flex flex flex-col"  v-if="showOptions">
       <slot name="expand"></slot>
       <template v-for="post in editablePosts">
         <a @click="onOptionClick(post)" v-if="activePostName !== post.name "
