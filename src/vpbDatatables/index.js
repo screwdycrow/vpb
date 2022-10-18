@@ -42,7 +42,7 @@ export function createVpbDataTable() {
                             name: 'columns',
                             type: 'dataTableColumns',
                             label: 'Columns',
-                            defaultValue: [{title: 'Column 1', field: 'column1', formatter: 'plainText'}]
+                            defaultValue: [{title: 'Column 1', field: 'column1', formatter: 'plaintext'}]
                         }),
                         new Prop({
                             name: 'endpoint',

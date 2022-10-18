@@ -77,7 +77,6 @@ export default {
     const dataTableStore = useVpbDataTableStore()
 
     const dataTables = computed(() => dataTableStore.dataTablesArray || [])
-    datatablesMap = computed(() => dataTableStore.dataTablesMap || {})
     return {prop, activeComponent, dataTables , effects, operators}
   }
 }

@@ -8,7 +8,7 @@ import RequiredProps from "@/vpb/models/RequiredProps";
 import {computed, onMounted, reactive, ref, toRefs, watch} from "vue";
 import {TabulatorFull as Tabulator} from "tabulator-tables";
 import {useVpbDataTableStore} from "@/vpbDatatables/store/vpbDataTableStore";
-import {cloneDeep} from "lodash";
+import {cloneDeep,get} from "lodash";
 
 export default {
   props: {
@@ -41,6 +41,7 @@ export default {
         columns: columns.value,
         layout: "fitColumns", //fit columns to width of table (optional)\
         ajaxURL: endpoint.value, //ajax URL
+        maxHeight:"100%",
         ajaxConfig: {
           method: "GET", //set request type to Position
           headers: {
@@ -49,7 +50,10 @@ export default {
           },
         },
         ajaxResponse: function (url, params, response) {
-          return response[data.value]; //return the tableData property of a response json object
+          if(data.value){
+            return response[data.value]
+          }
+          return response; //return the tableData property of a response json object
         },
       });
     }
@@ -69,7 +73,7 @@ export default {
             dataTableStore.addFilterToDataTable(item.target,
                 {
                   field: item.targetField,
-                  value: data[item.sourceField],
+                  value: get(data, item.sourceField),
                   type: item.op
                 })
           }
