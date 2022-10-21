@@ -6,6 +6,6 @@ export default class Post{
         this.type = type;
         this.settings = settings;
         this.content = content;
-        this.template= template;
+        this.template = template;
     }
 }

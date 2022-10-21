@@ -4,46 +4,33 @@ import axios from "axios";
 
 export const useVpbSourceStore = defineStore('vpbSource', {
     state: () => ({
+        axiosInstances: new Map(),
         sources: new Map(),
+        data: new Map(),
     }),
     actions: {
         addSource(source) {
-            this.sources.set(source.id, source)
+            this.sources.set(source.name, source)
         },
-        removeSource(id) {
-            this.sources.delete(id)
+        removeSource(source) {
+            this.sources.delete(source.name)
         },
-        fillSource(id) {
+        setAxiosInstance(name, instance) {
+            this.axiosInstances.set(name, instance)
+        },
+        fillData(name) {
             const source = this.sources.get(id);
-            if (!source) {
-                return Promise.resolve();
-            } else {
-                return axios.get(source.getRequestUrl).then(response => source.data = response.data)
-            }
+            const axiosInstance = this.axiosInstances.get(source.axiosInstance);
+            axiosInstance.get(source.url, {
+                params: source.params,
+            }).then(
+                response => {
+                    this.data.set(name, response.data)
+                }
+            )
         },
-        postSource(id) {
-            const source = this.sources.get(id);
-            if (!source) {
-                return Promise.resolve();
-            } else {
-                //make an object from sources.postStructure as key  and source.data
-                const data = source.postStructure.reduce((acc, cur) => {
-                    acc[cur] = source.data[cur];
-                    return acc;
-                }, {});
-                return axios.post(source.postRequestUrl, data).then(response => source.data = response.data)
-            }
-        }
     },
     getters: {
-        getSourceDataKeys: (state) => (id) => {
-            const source = state.sources.get(id);
-            if (!source) {
-                return [];
-            } else {
-                return Object.keys(source.data);
-            }
-        }
     }
 
 })

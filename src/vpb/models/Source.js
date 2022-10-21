@@ -1,9 +1,11 @@
 export default class Source {
-    constructor({id, getRequestUrl, postRequestUrl, data, postStructure}) {
-        this.id = id;
-        this.getRequestUrl = getRequestUrl;
-        this.postRequestUrl = postRequestUrl;
-        this.postStructure = this.postStructure || []
-        this.data = data || {};
+    constructor({id, url, label, method, params, structure, axiosInstance}) {
+        this.name = name;
+        this.label = label
+        this.method = method
+        this.url = url;
+        this.structure = structure;
+        this.params = params;
+        this.axiosInstance = axiosInstance;
     }
 }

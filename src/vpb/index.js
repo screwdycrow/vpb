@@ -32,9 +32,10 @@ export function createVpb(
         getPostsRequest,
         updatePostRequest,
         removePostRequest,
-        addPostRequest
+        addPostRequest,
+        axiosInstances
     }) {
-    const {registerTemplates,registerRoutes,registerPropEditors,registerComponentTypes} = useVpbFunctions()
+    const {registerTemplates,registerRoutes,registerPropEditors,registerComponentTypes,registerAxiosInstance} = useVpbFunctions()
     return {
         install: (app, {router}) => {
             let vpbAdminStore = useVpbAdminStore();

@@ -2,6 +2,7 @@ import {useVpbAdminStore} from "@/vpb/stores/vpbAdminStore";
 import {markRaw} from "vue";
 import VpbPost from "@/vpb/views/VpbPost";
 import VpbPostBlank from "@/vpb/views/VpbPostBlank";
+import {useVpbSourceStore} from "@/vpb/stores/vpbSourceStore";
 
 export  default ()=>{
     function registerComponentTypes(componentTypes) {
@@ -25,6 +26,23 @@ export  default ()=>{
             'Blank': markRaw(VpbPostBlank),
             ...templates ? templates : {}
         })
+    }
+
+    function registerSources(sources){
+        const vpbSourceStore = useVpbSourceStore()
+        sources.forEach(
+            source=>{
+                vpbSourceStore.addSource(source)
+            }
+        )
+    }
+    function registerAxiosInstance(axiosInstances) {
+        const vpbAdminStore = useVpbSourceStore();
+        axiosInstances.forEach(
+            axiosInstance => {
+                vpbAdminStore.setAxiosInstance(axiosInstance.name, axiosInstance.axios)
+            }
+        )
     }
 
     function registerRoutes(posts, router) {
