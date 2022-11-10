@@ -33,9 +33,13 @@ export function createVpb(
         updatePostRequest,
         removePostRequest,
         addPostRequest,
+        addSourceRequest,
+        updateSourceRequest,
+        getSourcesRequest,
+        removeSourceRequest,
         axiosInstances
     }) {
-    const {registerTemplates,registerRoutes,registerPropEditors,registerComponentTypes,registerAxiosInstance} = useVpbFunctions()
+    const {registerTemplates,registerRoutes,registerPropEditors,registerComponentTypes,registerAxiosInstances} = useVpbFunctions()
     return {
         install: (app, {router}) => {
             let vpbAdminStore = useVpbAdminStore();
@@ -43,7 +47,11 @@ export function createVpb(
                 getPosts: getPostsRequest,
                 updatePost: updatePostRequest,
                 removePost: removePostRequest,
-                addPost: addPostRequest
+                addPost: addPostRequest,
+                addSource:addSourceRequest,
+                removeSource:removeSourceRequest,
+                updateSource:updateSourceRequest,
+                getSources:getSourcesRequest,
             })
             registerPropEditors([
                 new PropEditor({
@@ -153,9 +161,11 @@ export function createVpb(
 
                 })
             ])
-            registerPropEditors(propEditors)
+            registerAxiosInstances(axiosInstances);
+            registerPropEditors(propEditors);
             registerComponentTypes(componentTypes);
             registerTemplates(templates);
+            vpbAdminStore.getSources();
             vpbAdminStore.getPosts().then(() => {
                 const pages = vpbAdminStore.pages
                 registerRoutes(pages, router);

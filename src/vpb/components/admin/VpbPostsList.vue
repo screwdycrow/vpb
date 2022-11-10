@@ -55,9 +55,8 @@ export default {
   name: "VpbPostsList",
   components: {VpbAddPage},
   setup(){
-    //modal flag
     const adminStore =  useVpbAdminStore()
-    const { pages, } = storeToRefs(adminStore)
+    const { pages } = storeToRefs(adminStore)
     const removePost = function (post) {
       adminStore.removePost(post)
     }

@@ -5,8 +5,7 @@ import PropEditor from "@/vpb/models/PropEditor";
 import Title from "@/components/Title";
 import VpbPostBlank from "@/vpb/views/VpbPostBlank";
 import {usePropTextDefinition} from "@/vpb/composables/TextProps";
-import DataTable from "@/vpbDatatables/components/DataTable";
-import DataTableColumnEditor from "@/vpbDatatables/editors/DataTableColumnEditor";
+import axios from '@/api/axios'
 
 export default createVpb({
 
@@ -15,6 +14,10 @@ export default createVpb({
     },
     propEditors: [
     ],
+    axiosInstances: {
+        'example-api':axios
+    },
+
     componentTypes: [
         new ComponentType({
             type: 'Title',
@@ -77,6 +80,50 @@ export default createVpb({
                 } else {
                     resolve([])
                 }
+            }, 500)
+        })
+    },
+    getSourcesRequest: () => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                //check if posts are in local storage
+                if (localStorage.getItem('sources') !== null) {
+                    resolve(JSON.parse(localStorage.getItem('sources')))
+                } else {
+                    resolve([])
+                }
+            }, 500)
+        })
+    },
+    updateSourceRequest: (source) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                let sources = JSON.parse(localStorage.getItem('sources'))
+                let index = sources.findIndex(s => s.name === source.name)
+                sources[index] = source
+                localStorage.setItem('sources', JSON.stringify(sources))
+                resolve(sources[index])
+            }, 500)
+        })
+    },
+    removeSourceRequest: (source) => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          let sources = JSON.parse(localStorage.getItem('sources'))
+          let index = sources.findIndex(s => s.name === source.name)
+          sources.splice(index, 1)
+          localStorage.setItem('sources', JSON.stringify(sources))
+          resolve()
+        }, 500)
+      })
+    },
+    addSourceRequest: (source) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+            let sources = JSON.parse(localStorage.getItem('sources')) || []
+            sources.push(source)
+            localStorage.setItem('sources', JSON.stringify(sources))
+            resolve(source)
             }, 500)
         })
     }
